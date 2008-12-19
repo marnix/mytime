@@ -5,19 +5,33 @@ import mytime.app.AppTrayIcon;
 import mytime.app.IUIRoot;
 import mytime.app.IUITrayIcon;
 
+/**
+ * The root of the Swing UI of the MyTime application; this is a singleton.
+ * 
+ */
 public class SwingUIRoot implements IUIRoot {
 
     /**
-     * @param args
+     * @param args The command line arguments (currently unused).
      */
     public static void main(String[] args) {
 	AppRoot.Start(new SwingUIRoot());
     }
 
+    /**
+     * Create a new {@link SwingUITrayIcon}.
+     * 
+     * @see mytime.app.IUIRoot#showTrayIcon(mytime.app.AppTrayIcon)
+     */
     public IUITrayIcon showTrayIcon(AppTrayIcon appTrayIcon) {
 	return new SwingUITrayIcon(appTrayIcon);
     }
 
+    /**
+     * Exit the JVM.
+     * 
+     * @see mytime.app.IUIRoot#exit()
+     */
     public void exit() {
 	System.exit(0);
     }

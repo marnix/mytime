@@ -10,11 +10,16 @@ public class AppRoot {
 
     private final IUIRoot _uiRoot;
 
+    /**
+     * Starts the application, and connects it to the UI (i.e., the {@link IUIRoot} object).
+     * 
+     * @param uiRoot the root UI object for the application
+     */
     public static void Start(IUIRoot uiRoot) {
 	new AppRoot(uiRoot);
     }
 
-    public AppRoot(IUIRoot uiRoot) {
+    private AppRoot(IUIRoot uiRoot) {
 	_uiRoot = uiRoot;
 	// create application facade and UI object...
 	AppTrayIcon appTrayIcon = new AppTrayIcon(this);
@@ -23,7 +28,7 @@ public class AppRoot {
 	appTrayIcon.setUITrayIcon(uiTrayIcon);
     }
 
-    public IUIRoot getUIRoot() {
+    IUIRoot getUIRoot() {
 	return _uiRoot;
     }
 }

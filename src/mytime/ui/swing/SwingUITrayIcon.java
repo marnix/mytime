@@ -12,19 +12,24 @@ import java.awt.event.ActionListener;
 import mytime.app.AppTrayIcon;
 import mytime.app.IUITrayIcon;
 
+/**
+ * The UI object representing the tray icon.
+ */
 public class SwingUITrayIcon implements IUITrayIcon {
 
-    private final AppTrayIcon _appTrayIcon;
+    final AppTrayIcon _appTrayIcon;
     private java.awt.TrayIcon _trayIcon;
 
     /**
-     * Create and show the tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
+     * Create and show the AWT tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
+     * 
+     * @param appTrayIcon the application facade for the tray icon
      */
     public SwingUITrayIcon(AppTrayIcon appTrayIcon) {
 	_appTrayIcon = appTrayIcon;
 	_trayIcon = new java.awt.TrayIcon(createImage(), null /* initially no tooltip */, createPopUpMenu());
 	_trayIcon.setImageAutoSize(true);
-	showTrayIcon();
+	showAWTIcon();
     }
 
     private Image createImage() {
@@ -48,7 +53,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	return popup;
     }
 
-    private void showTrayIcon() {
+    private void showAWTIcon() {
 	try {
 	    SystemTray.getSystemTray().add(_trayIcon);
 	} catch (AWTException ex) {
@@ -59,10 +64,20 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	}
     }
 
+    /**
+     * Set the tooltip on the AWT icon.
+     * 
+     * @see mytime.app.IUITrayIcon#setTooltip(java.lang.String)
+     */
     public void setTooltip(String tooltip) {
 	_trayIcon.setToolTip(tooltip);
     }
 
+    /**
+     * Remove the AWT icon.
+     * 
+     * @see mytime.app.IUITrayIcon#destroy()
+     */
     public void destroy() {
 	SystemTray.getSystemTray().remove(_trayIcon);
 	_trayIcon = null; // to make sure nobody tries to use it anymore
