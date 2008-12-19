@@ -6,17 +6,17 @@ public class AppTrayIcon {
     private final AppRoot _appRoot;
 
     public AppTrayIcon(AppRoot appRoot) {
-        _appRoot = appRoot;
+	_appRoot = appRoot;
     }
 
     public void setUITrayIcon(IUITrayIcon trayIcon) {
-        _uiTrayIcon = trayIcon;
-        _uiTrayIcon.setTooltip("MyTime");
+	_uiTrayIcon = trayIcon;
+	_uiTrayIcon.setTooltip("MyTime");
     }
 
     public void doExit() {
-        _uiTrayIcon.destroy();
-        _uiTrayIcon = null; // to make sure we don't use it anymore
-        _appRoot.getUIRoot().exit();
+	_uiTrayIcon.destroy();
+	_uiTrayIcon = null; // to make sure we don't use it anymore
+	_appRoot.getUIRoot().exit();
     }
 }

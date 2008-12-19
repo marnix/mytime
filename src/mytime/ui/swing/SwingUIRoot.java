@@ -11,15 +11,15 @@ public class SwingUIRoot implements IUIRoot {
      * @param args
      */
     public static void main(String[] args) {
-        AppRoot.Start(new SwingUIRoot());
+	AppRoot.Start(new SwingUIRoot());
     }
 
     public IUITrayIcon showTrayIcon(AppTrayIcon appTrayIcon) {
-        return new SwingUITrayIcon(appTrayIcon);
+	return new SwingUITrayIcon(appTrayIcon);
     }
 
     public void exit() {
-        System.exit(0);
+	System.exit(0);
     }
 
 }
