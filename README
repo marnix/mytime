@@ -29,7 +29,8 @@ currently means the following:
    environment it stays in the system tray.
  
  - It only has commands for the basic actions: start working on a new or on an
-   existing task, stop working, and edit start/end times for recent activities. 
+   existing task, stop working, and edit start/end times and task names for
+   recent activities. 
  
  - It generally stays out of the way until I use it once a week to generate a
    report of some kind.
@@ -39,7 +40,7 @@ However, I do also have the following requirements:
  - The tool should work cross-platform, at least Windows and Gnome-on-Linux
    should be supported.
  
- - It should be based on a well-defined, simple, and brief time log file
+ - It should be based on a well-defined, simple, and compact time log file
    format.
  
  - It should be flexible in the reports that can be generated (but not
@@ -53,4 +54,24 @@ need to do for my day-time job.
 TODO
 ----
 
- * Complete this prioritized to-do list, so that I know what to work on next. 
+ * Complete this prioritized to-do list, so that I know what to work on next.
+ 
+ * Build initial screen to indicate starting/stopping work.
+ 
+ * Allow editing of start/end times of work.
+ 
+ * Allow specification of a task name.  
+
+ * Design an initial version of the time log file format.
+ 
+ * Make every task/time change persistent to a time log file.  Read this file
+   on start-up.
+ 
+ * Add a multi-level 'undo' function to the UI (the time log is not rolled
+   back, but an undo entry is added).
+   
+ * Add a multi-level 'redo' function.
+ 
+ * Allow specification of 'tags' for each task name, to help in reporting. 
+ 
+ * Try to make the application respond to (configurable) global keystrokes. 
