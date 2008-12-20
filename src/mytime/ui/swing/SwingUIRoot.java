@@ -19,7 +19,9 @@ public class SwingUIRoot implements IUIRoot {
     }
 
     /**
-     * Create a new {@link SwingUITrayIcon}.
+     * Create and show a new {@link SwingUITrayIcon}.
+     * 
+     * @return the created icon
      * 
      * @see mytime.app.IUIRoot#showTrayIcon(mytime.app.AppTrayIcon)
      */
