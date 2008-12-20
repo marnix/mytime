@@ -23,10 +23,10 @@ public class SwingUIRoot implements IUIRoot {
      * 
      * @return the created icon
      * 
-     * @see mytime.app.IUIRoot#showTrayIcon(mytime.app.AppTrayIcon)
+     * @see mytime.app.IUIRoot#showTrayIcon(mytime.app.AppTrayIcon,boolean)
      */
-    public IUITrayIcon showTrayIcon(AppTrayIcon appTrayIcon) {
-	return new SwingUITrayIcon(appTrayIcon);
+    public IUITrayIcon showTrayIcon(AppTrayIcon appTrayIcon, boolean isRunning) {
+	return new SwingUITrayIcon(appTrayIcon, isRunning);
     }
 
     /**

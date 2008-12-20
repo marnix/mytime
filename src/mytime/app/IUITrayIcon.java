@@ -13,6 +13,13 @@ public interface IUITrayIcon {
     public void setTooltip(String tooltip);
 
     /**
+     * Instructs the UI to set the 'running' state
+     * 
+     * @param isRunning whether or not the icon should show the timer is running
+     */
+    public void setRunning(boolean isRunning);
+
+    /**
      * Instructs the UI to destroy the tray icon. After this action, this {@link IUITrayIcon} object may not be used anymore.
      */
     public void destroy();

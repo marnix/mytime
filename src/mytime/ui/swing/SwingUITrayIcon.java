@@ -8,6 +8,8 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import mytime.app.AppTrayIcon;
 import mytime.app.IUITrayIcon;
@@ -18,22 +20,44 @@ import mytime.app.IUITrayIcon;
 public class SwingUITrayIcon implements IUITrayIcon {
 
     final AppTrayIcon _appTrayIcon;
-    private java.awt.TrayIcon _trayIcon;
+    private java.awt.TrayIcon _awtTrayIcon;
 
     /**
      * Create and show the AWT tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
      * 
      * @param appTrayIcon the application facade for the tray icon
+     * @param isRunning whether the tray icon should display the 'running' state or not
      */
-    public SwingUITrayIcon(AppTrayIcon appTrayIcon) {
+    public SwingUITrayIcon(AppTrayIcon appTrayIcon, boolean isRunning) {
 	_appTrayIcon = appTrayIcon;
-	_trayIcon = new java.awt.TrayIcon(createImage(), null /* initially no tooltip */, createPopUpMenu());
-	_trayIcon.setImageAutoSize(true);
-	showAWTIcon();
+	_awtTrayIcon = new java.awt.TrayIcon(createImage(isRunning), null /* initially no tooltip */, createPopUpMenu());
+	_awtTrayIcon.setImageAutoSize(true);
+	_awtTrayIcon.addMouseListener(new MouseAdapter() {
+	    @Override
+	    public void mouseClicked(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON1) {
+		    switch (e.getClickCount()) {
+		    case 1:
+			// a single left-click on the icon
+			_appTrayIcon.doClick();
+			break;
+		    case 2:
+			// TODO: _appTrayIcon.doDoubleClick();
+			break;
+		    default:
+			// ignore triple-clicks
+		    }
+		} else {
+		    // ignore the other buttons
+		}
+	    }
+	});
+	showAWTTrayIcon();
     }
 
-    private Image createImage() {
-	return Toolkit.getDefaultToolkit().getImage(getClass().getResource("crummy-stopwatch.gif"));
+    private Image createImage(boolean isRunning) {
+	// TODO: create a static array of size two with two Image objects, for efficiency.
+	return Toolkit.getDefaultToolkit().getImage(getClass().getResource(isRunning ? "clock-run.png" : "clock-stop.png"));
     }
 
     private PopupMenu createPopUpMenu() {
@@ -53,9 +77,9 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	return popup;
     }
 
-    private void showAWTIcon() {
+    private void showAWTTrayIcon() {
 	try {
-	    SystemTray.getSystemTray().add(_trayIcon);
+	    SystemTray.getSystemTray().add(_awtTrayIcon);
 	} catch (AWTException ex) {
 	    // TODO: Replace this emergency handler by something more generic,
 	    // which we could use in multiple places.
@@ -70,7 +94,11 @@ public class SwingUITrayIcon implements IUITrayIcon {
      * @see mytime.app.IUITrayIcon#setTooltip(java.lang.String)
      */
     public void setTooltip(String tooltip) {
-	_trayIcon.setToolTip(tooltip);
+	_awtTrayIcon.setToolTip(tooltip);
+    }
+
+    public void setRunning(boolean isRunning) {
+	_awtTrayIcon.setImage(createImage(isRunning));
     }
 
     /**
@@ -79,8 +107,8 @@ public class SwingUITrayIcon implements IUITrayIcon {
      * @see mytime.app.IUITrayIcon#destroy()
      */
     public void destroy() {
-	SystemTray.getSystemTray().remove(_trayIcon);
-	_trayIcon = null; // to make sure nobody tries to use it anymore
+	SystemTray.getSystemTray().remove(_awtTrayIcon);
+	_awtTrayIcon = null; // to make sure nobody tries to use it anymore
     }
 
 }

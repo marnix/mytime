@@ -16,10 +16,18 @@ public class AppTrayIcon {
 	_uiTrayIcon.setTooltip("MyTime");
     }
 
+    public void doClick() {
+	_appRoot.toggleTimer();
+    }
+
     /** Called by the UI when the 'exit' option of the tray icon has been activated. */
     public void doExit() {
 	_uiTrayIcon.destroy();
 	_uiTrayIcon = null; // to make sure we don't use it anymore
 	_appRoot.getUIRoot().exit();
+    }
+
+    public void setRunning(boolean isRunning) {
+	_uiTrayIcon.setRunning(isRunning);
     }
 }

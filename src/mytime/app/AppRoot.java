@@ -9,6 +9,8 @@ package mytime.app;
 public class AppRoot {
 
     private final IUIRoot _uiRoot;
+    private final AppTrayIcon _appTrayIcon;
+    private boolean _isRunning = false;
 
     /**
      * Starts the application, and connects it to the UI (i.e., the {@link IUIRoot} object).
@@ -21,14 +23,18 @@ public class AppRoot {
 
     private AppRoot(IUIRoot uiRoot) {
 	_uiRoot = uiRoot;
-	// create application facade and UI object...
-	AppTrayIcon appTrayIcon = new AppTrayIcon(this);
-	IUITrayIcon uiTrayIcon = _uiRoot.showTrayIcon(appTrayIcon);
+	_appTrayIcon = new AppTrayIcon(this);
+	IUITrayIcon uiTrayIcon = _uiRoot.showTrayIcon(_appTrayIcon, false);
 	// ...and connect them
-	appTrayIcon.setUITrayIcon(uiTrayIcon);
+	_appTrayIcon.setUITrayIcon(uiTrayIcon);
     }
 
     IUIRoot getUIRoot() {
 	return _uiRoot;
+    }
+
+    public void toggleTimer() {
+	_isRunning = !_isRunning;
+	_appTrayIcon.setRunning(_isRunning);
     }
 }
