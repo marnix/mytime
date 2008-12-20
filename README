@@ -19,6 +19,37 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+GOAL
+----
+
+MyTime is intended to be a minimalistic time track tool.  For me, that
+currently means the following:
+
+ - During day-to-day work it takes up minimal screen space, so in a desktop
+   environment it stays in the system tray.
+ 
+ - It only has commands for the basic actions: start working on a new or on an
+   existing task, stop working, and edit start/end times for recent activities. 
+ 
+ - It generally stays out of the way until I use it once a week to generate a
+   report of some kind.
+   
+However, I do also have the following requirements:
+
+ - The tool should work cross-platform, at least Windows and Gnome-on-Linux
+   should be supported.
+ 
+ - It should be based on a well-defined, simple, and brief time log file
+   format.
+ 
+ - It should be flexible in the reports that can be generated (but not
+   necessarily through the GUI: a command-line interface is OK as well).
+
+So why did I start creating yet another time track tool?  Well, I couldn't find
+one that fit the above ideas perfectly.  And it was also a good excuse to try
+and create a simple GUI in Java, and to get to know Eclipse better, which I
+need to do for my day-time job.
+
 TODO
 ----
 
