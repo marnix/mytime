@@ -17,6 +17,10 @@ public class AppMainWindow {
 	setVisibility(false);
     }
 
+    public boolean getVisibility() {
+	return _isVisible;
+    }
+
     public void setVisibility(boolean isVisible) {
 	_uiMainWindow.setVisibility(isVisible);
     }

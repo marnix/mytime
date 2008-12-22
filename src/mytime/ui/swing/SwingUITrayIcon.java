@@ -1,6 +1,7 @@
 package mytime.ui.swing;
 
 import java.awt.AWTException;
+import java.awt.CheckboxMenuItem;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -8,8 +9,8 @@ import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import mytime.app.AppTrayIcon;
 import mytime.app.IUITrayIcon;
@@ -21,6 +22,8 @@ public class SwingUITrayIcon implements IUITrayIcon {
 
     final AppTrayIcon _appTrayIcon;
     private java.awt.TrayIcon _awtTrayIcon;
+    CheckboxMenuItem _awtHideShowItem;
+    CheckboxMenuItem _awtToggleTimerWindow;
 
     /**
      * Create and show the AWT tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
@@ -32,27 +35,10 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	_appTrayIcon = appTrayIcon;
 	_awtTrayIcon = new java.awt.TrayIcon(createImage(isRunning), null /* initially no tooltip */, createPopUpMenu());
 	_awtTrayIcon.setImageAutoSize(true);
-	_awtTrayIcon.addMouseListener(new MouseAdapter() {
-	    @Override
-	    public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
-		    switch (e.getClickCount()) {
-		    case 3:
-			// a triple left-click on the icon: toggle the timer
-			//
-			// (Why did I use the triple-click for this? well, a single-click event is not only generated on a
-			// single-click, but on a double-click, right before the e.getClickCount() == 2 event. Sigh.)
-			_appTrayIcon.doToggleTimer();
-			break;
-		    case 2:
-			_appTrayIcon.doToggleMainWindow();
-			break;
-		    default:
-			// ignore triple-clicks
-		    }
-		} else {
-		    // ignore the other buttons
-		}
+	_awtTrayIcon.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		_appTrayIcon.doToggleWindows();
+		_awtHideShowItem.setState(_appTrayIcon.areWindowsVisible());
 	    }
 	});
 	showAWTTrayIcon();
@@ -66,16 +52,34 @@ public class SwingUITrayIcon implements IUITrayIcon {
     private PopupMenu createPopUpMenu() {
 	PopupMenu popup = new PopupMenu();
 
+	_awtHideShowItem = new CheckboxMenuItem("Show window");
+	_awtHideShowItem.addItemListener(new ItemListener() {
+	    public void itemStateChanged(ItemEvent e) {
+		assert e.getStateChange() == (_appTrayIcon.areWindowsVisible() ? ItemEvent.DESELECTED : ItemEvent.SELECTED);
+		_appTrayIcon.doToggleWindows();
+	    }
+	});
+	_awtHideShowItem.setState(_appTrayIcon.areWindowsVisible());
+	popup.add(_awtHideShowItem);
+
+	_awtToggleTimerWindow = new CheckboxMenuItem("Run timer");
+	_awtToggleTimerWindow.addItemListener(new ItemListener() {
+	    public void itemStateChanged(ItemEvent e) {
+		assert e.getStateChange() == (_appTrayIcon.isTimerRunning() ? ItemEvent.DESELECTED : ItemEvent.SELECTED);
+		_appTrayIcon.doToggleTimer();
+	    }
+	});
+	_awtToggleTimerWindow.setState(_appTrayIcon.isTimerRunning());
+	popup.add(_awtToggleTimerWindow);
+
 	// create menu item for the exit action
-	MenuItem defaultItem = new MenuItem("Exit");
-	defaultItem.addActionListener(new ActionListener() {
+	MenuItem exitItem = new MenuItem("Exit");
+	exitItem.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		_appTrayIcon.doExit();
 	    }
 	});
-	popup.add(defaultItem);
-
-	// TODO: add other menu items
+	popup.add(exitItem);
 
 	return popup;
     }

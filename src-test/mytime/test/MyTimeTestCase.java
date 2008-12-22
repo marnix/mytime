@@ -96,20 +96,20 @@ public class MyTimeTestCase extends TestCase implements IUIRoot, IUITrayIcon, IU
     public void testShowWindowThenImmediatelyExit() {
 	assertEquals(_mainwindowIsVisible, false);
 
-	_appTrayIcon.doToggleMainWindow();
+	_appTrayIcon.doToggleWindows();
 	assertEquals(_mainwindowIsVisible, true);
     }
 
     public void testShowThenHideWindow() {
 	assertEquals(_mainwindowIsVisible, false);
 
-	_appTrayIcon.doToggleMainWindow();
+	_appTrayIcon.doToggleWindows();
 	assertEquals(_mainwindowIsVisible, true);
 
-	_appTrayIcon.doToggleMainWindow();
+	_appTrayIcon.doToggleWindows();
 	assertEquals(_mainwindowIsVisible, false);
 
-	_appTrayIcon.doToggleMainWindow();
+	_appTrayIcon.doToggleWindows();
 	assertEquals(_mainwindowIsVisible, true);
 
 	_appMainWindow.doMinimize();

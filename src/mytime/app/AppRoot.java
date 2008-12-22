@@ -40,7 +40,7 @@ public class AppRoot {
 	_appTrayIcon.setRunning(_isRunning);
     }
 
-    public void toggleMainWindow() {
+    public void toggleWindows() {
 	if (_appMainWindow == null) {
 	    // create application facade and UI...
 	    _appMainWindow = new AppMainWindow(this);
@@ -49,6 +49,14 @@ public class AppRoot {
 	    _appMainWindow.setUIMainWindow(uiMainWindow);
 	}
 	_appMainWindow.toggleVisibility();
+    }
+
+    public boolean isTimerRunning() {
+	return _isRunning;
+    }
+
+    boolean areWindowsVisible() {
+	return _appMainWindow != null && _appMainWindow.getVisibility();
     }
 
     public void exit() {

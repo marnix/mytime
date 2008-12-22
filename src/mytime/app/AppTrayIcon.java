@@ -16,8 +16,24 @@ public class AppTrayIcon {
 	_uiTrayIcon.setTooltip("MyTime");
     }
 
+    public void setRunning(boolean isRunning) {
+	_uiTrayIcon.setRunning(isRunning);
+    }
+
+    public boolean isTimerRunning() {
+	return _appRoot.isTimerRunning();
+    }
+
+    public boolean areWindowsVisible() {
+	return _appRoot.areWindowsVisible();
+    }
+
     public void doToggleTimer() {
 	_appRoot.toggleTimer();
+    }
+
+    public void doToggleWindows() {
+	_appRoot.toggleWindows();
     }
 
     /** Called by the UI when the 'exit' option of the tray icon has been activated. */
@@ -28,13 +44,5 @@ public class AppTrayIcon {
     void destroy() {
 	_uiTrayIcon.destroyTrayIcon();
 	_uiTrayIcon = null; // to make sure we don't use it anymore
-    }
-
-    public void setRunning(boolean isRunning) {
-	_uiTrayIcon.setRunning(isRunning);
-    }
-
-    public void doToggleMainWindow() {
-	_appRoot.toggleMainWindow();
     }
 }
