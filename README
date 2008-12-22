@@ -64,6 +64,9 @@ TODO
 
  * Design an initial version of the time log file format.
  
+ * In the context menu, show a list of recent tasks, and start the timer on
+   a task that is selected.
+ 
  * Make every task/time change persistent to a time log file.  Read this file
    on start-up.
  
