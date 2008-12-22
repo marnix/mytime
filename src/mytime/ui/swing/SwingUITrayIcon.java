@@ -37,12 +37,15 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	    public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 		    switch (e.getClickCount()) {
-		    case 1:
-			// a single left-click on the icon
-			_appTrayIcon.doClick();
+		    case 3:
+			// a triple left-click on the icon: toggle the timer
+			//
+			// (Why did I use the triple-click for this? well, a single-click event is not only generated on a
+			// single-click, but on a double-click, right before the e.getClickCount() == 2 event. Sigh.)
+			_appTrayIcon.doToggleTimer();
 			break;
 		    case 2:
-			// TODO: _appTrayIcon.doDoubleClick();
+			// TODO: _appTrayIcon.doToggleWindows();
 			break;
 		    default:
 			// ignore triple-clicks

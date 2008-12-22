@@ -16,7 +16,7 @@ public class AppTrayIcon {
 	_uiTrayIcon.setTooltip("MyTime");
     }
 
-    public void doClick() {
+    public void doToggleTimer() {
 	_appRoot.toggleTimer();
     }
 

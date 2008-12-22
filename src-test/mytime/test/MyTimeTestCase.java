@@ -61,10 +61,10 @@ public class MyTimeTestCase extends TestCase implements IUIRoot, IUITrayIcon {
     public void testStartThenStopTimer() {
 	assertEquals(_isRunning, false);
 
-	_appTrayIcon.doClick();
+	_appTrayIcon.doToggleTimer();
 	assertEquals(_isRunning, true);
 
-	_appTrayIcon.doClick();
+	_appTrayIcon.doToggleTimer();
 	assertEquals(_isRunning, false);
     }
 }
