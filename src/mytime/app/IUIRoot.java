@@ -15,6 +15,14 @@ public interface IUIRoot {
     IUITrayIcon showTrayIcon(AppTrayIcon trayIcon, boolean isRunning);
 
     /**
+     * Instructs the UI to create, and immediately show, the window for the given {@link AppMainWindow}.
+     * 
+     * @param appMainWindow the application facade for the main window
+     * @return the created main window
+     */
+    IUIMainWindow showMainWindow(AppMainWindow appMainWindow);
+
+    /**
      * Instructs the UI to exit.
      */
     void exit();

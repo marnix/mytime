@@ -45,7 +45,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
 			_appTrayIcon.doToggleTimer();
 			break;
 		    case 2:
-			// TODO: _appTrayIcon.doToggleWindows();
+			_appTrayIcon.doToggleMainWindow();
 			break;
 		    default:
 			// ignore triple-clicks
@@ -100,6 +100,12 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	_awtTrayIcon.setToolTip(tooltip);
     }
 
+    /**
+     * Set the running/stopped state.
+     * 
+     * @param isRunning whether or not the icon shows 'running'
+     * 
+     */
     public void setRunning(boolean isRunning) {
 	_awtTrayIcon.setImage(createImage(isRunning));
     }
@@ -107,9 +113,9 @@ public class SwingUITrayIcon implements IUITrayIcon {
     /**
      * Remove the AWT icon.
      * 
-     * @see mytime.app.IUITrayIcon#destroy()
+     * @see mytime.app.IUITrayIcon#destroyTrayIcon()
      */
-    public void destroy() {
+    public void destroyTrayIcon() {
 	SystemTray.getSystemTray().remove(_awtTrayIcon);
 	_awtTrayIcon = null; // to make sure nobody tries to use it anymore
     }

@@ -1,7 +1,9 @@
 package mytime.ui.swing;
 
+import mytime.app.AppMainWindow;
 import mytime.app.AppRoot;
 import mytime.app.AppTrayIcon;
+import mytime.app.IUIMainWindow;
 import mytime.app.IUIRoot;
 import mytime.app.IUITrayIcon;
 
@@ -21,12 +23,25 @@ public class SwingUIRoot implements IUIRoot {
     /**
      * Create and show a new {@link SwingUITrayIcon}.
      * 
+     * @param appTrayIcon the application facade for the tray icon
+     * @param isRunning the initial running/stopped state of the icon
      * @return the created icon
      * 
      * @see mytime.app.IUIRoot#showTrayIcon(mytime.app.AppTrayIcon,boolean)
      */
     public IUITrayIcon showTrayIcon(AppTrayIcon appTrayIcon, boolean isRunning) {
 	return new SwingUITrayIcon(appTrayIcon, isRunning);
+    }
+
+    /**
+     * Create and show a new {@link SwingUIMainWindow}.
+     * 
+     * @param appMainWindow the application facade for the main window
+     * @return the created window
+     * 
+     */
+    public IUIMainWindow showMainWindow(AppMainWindow appMainWindow) {
+	return new SwingUIMainWindow(appMainWindow);
     }
 
     /**

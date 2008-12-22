@@ -22,12 +22,19 @@ public class AppTrayIcon {
 
     /** Called by the UI when the 'exit' option of the tray icon has been activated. */
     public void doExit() {
-	_uiTrayIcon.destroy();
+	_appRoot.exit();
+    }
+
+    void destroy() {
+	_uiTrayIcon.destroyTrayIcon();
 	_uiTrayIcon = null; // to make sure we don't use it anymore
-	_appRoot.getUIRoot().exit();
     }
 
     public void setRunning(boolean isRunning) {
 	_uiTrayIcon.setRunning(isRunning);
+    }
+
+    public void doToggleMainWindow() {
+	_appRoot.toggleMainWindow();
     }
 }
