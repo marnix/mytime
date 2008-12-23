@@ -20,8 +20,14 @@ public interface IUITrayIcon {
     public void setRunning(boolean isRunning);
 
     /**
+     * Instructs the UI to show whether or not the windows are visible (necessary for pop-up menu).
+     * 
+     * @param areVisible whether or not the windows are visible
+     */
+    public void setWindowsVisible(boolean areVisible);
+
+    /**
      * Instructs the UI to destroy the tray icon. After this action, this {@link IUITrayIcon} object may not be used anymore.
      */
     public void destroyTrayIcon();
-
 }

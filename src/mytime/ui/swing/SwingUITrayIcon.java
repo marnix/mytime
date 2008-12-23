@@ -38,7 +38,6 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	_awtTrayIcon.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		_appTrayIcon.doToggleWindows();
-		_awtHideShowItem.setState(_appTrayIcon.areWindowsVisible());
 	    }
 	});
 	showAWTTrayIcon();
@@ -112,6 +111,10 @@ public class SwingUITrayIcon implements IUITrayIcon {
      */
     public void setRunning(boolean isRunning) {
 	_awtTrayIcon.setImage(createImage(isRunning));
+    }
+
+    public void setWindowsVisible(boolean areVisible) {
+	_awtHideShowItem.setState(areVisible);
     }
 
     /**

@@ -16,6 +16,8 @@ public class MyTimeTestCase extends TestCase implements IUIRoot, IUITrayIcon, IU
     private boolean _isRunning = true;
     private Object _mainwindowIsVisible = false;
     private AppMainWindow _appMainWindow;
+    private AppRoot _appRoot;
+    private boolean _showWindowIsOn = false;
 
     public IUITrayIcon showTrayIcon(AppTrayIcon appTrayIcon, boolean isRunning) {
 	_appTrayIcon = appTrayIcon;
@@ -35,6 +37,10 @@ public class MyTimeTestCase extends TestCase implements IUIRoot, IUITrayIcon, IU
 
     public void setRunning(boolean isRunning) {
 	_isRunning = isRunning;
+    }
+
+    public void setWindowsVisible(boolean areVisible) {
+	_showWindowIsOn = areVisible;
     }
 
     public void destroyTrayIcon() {
@@ -58,7 +64,7 @@ public class MyTimeTestCase extends TestCase implements IUIRoot, IUITrayIcon, IU
     public void setUp() {
 	assertNull(_appTrayIcon);
 	assertNull(_tooltip);
-	AppRoot.Start(this);
+	_appRoot = AppRoot.Start(this);
 	assertNotNull(_appTrayIcon);
 	assertEquals(_tooltip, "MyTime");
 	assertEquals(_isRunning, false);
@@ -102,17 +108,27 @@ public class MyTimeTestCase extends TestCase implements IUIRoot, IUITrayIcon, IU
 
     public void testShowThenHideWindow() {
 	assertEquals(_mainwindowIsVisible, false);
+	assertEquals(_appRoot.areWindowsVisible(), false);
+	assertEquals(_showWindowIsOn, false);
 
 	_appTrayIcon.doToggleWindows();
 	assertEquals(_mainwindowIsVisible, true);
+	assertEquals(_appRoot.areWindowsVisible(), true);
+	assertEquals(_showWindowIsOn, true);
 
 	_appTrayIcon.doToggleWindows();
 	assertEquals(_mainwindowIsVisible, false);
+	assertEquals(_appRoot.areWindowsVisible(), false);
+	assertEquals(_showWindowIsOn, false);
 
 	_appTrayIcon.doToggleWindows();
 	assertEquals(_mainwindowIsVisible, true);
+	assertEquals(_appRoot.areWindowsVisible(), true);
+	assertEquals(_showWindowIsOn, true);
 
 	_appMainWindow.doMinimize();
 	assertEquals(_mainwindowIsVisible, false);
+	assertEquals(_appRoot.areWindowsVisible(), false);
+	assertEquals(_showWindowIsOn, false);
     }
 }

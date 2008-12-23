@@ -4,8 +4,10 @@ public class AppMainWindow {
 
     private IUIMainWindow _uiMainWindow;
     private boolean _isVisible;
+    private final AppRoot _appRoot;
 
     public AppMainWindow(AppRoot appRoot) {
+	_appRoot = appRoot;
 	_isVisible = false;
     }
 
@@ -14,7 +16,9 @@ public class AppMainWindow {
     }
 
     public void doMinimize() {
-	setVisibility(false);
+	if (_appRoot.areWindowsVisible()) {
+	    _appRoot.toggleWindows();
+	}
     }
 
     public boolean getVisibility() {

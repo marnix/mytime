@@ -34,6 +34,11 @@ public class AppTrayIcon {
 
     public void doToggleWindows() {
 	_appRoot.toggleWindows();
+	updateVisibility();
+    }
+
+    public void updateVisibility() {
+	_uiTrayIcon.setWindowsVisible(areWindowsVisible());
     }
 
     /** Called by the UI when the 'exit' option of the tray icon has been activated. */

@@ -17,9 +17,10 @@ public class AppRoot {
      * Starts the application, and connects it to the UI (i.e., the {@link IUIRoot} object).
      * 
      * @param uiRoot the root UI object for the application
+     * @return the created application facade for the application
      */
-    public static void Start(IUIRoot uiRoot) {
-	new AppRoot(uiRoot);
+    public static AppRoot Start(IUIRoot uiRoot) {
+	return new AppRoot(uiRoot);
     }
 
     private AppRoot(IUIRoot uiRoot) {
@@ -49,13 +50,14 @@ public class AppRoot {
 	    _appMainWindow.setUIMainWindow(uiMainWindow);
 	}
 	_appMainWindow.toggleVisibility();
+	_appTrayIcon.updateVisibility();
     }
 
     public boolean isTimerRunning() {
 	return _isRunning;
     }
 
-    boolean areWindowsVisible() {
+    public boolean areWindowsVisible() {
 	return _appMainWindow != null && _appMainWindow.getVisibility();
     }
 
