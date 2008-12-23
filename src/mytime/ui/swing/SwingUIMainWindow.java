@@ -34,9 +34,18 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	// (Where can I store that information. Does Java have some kind of 'registry'?)
 	moveToLowerRightHandCorner();
 
+	// TODO: Make sure that the icon image is the same as the tray icon image, probably by moving knowledge about the icon to
+	// SwingUIRoot.
+
 	addWindowListener(new WindowAdapter() {
 	    @Override
-	    public void windowClosing(WindowEvent a_event) {
+	    public void windowClosing(WindowEvent e) {
+		// on close, we minimize to the tray icon
+		_appMainWindow.doMinimize();
+	    }
+
+	    @Override
+	    public void windowIconified(WindowEvent e) {
 		// on close, we minimize to the tray icon
 		_appMainWindow.doMinimize();
 	    }
@@ -66,6 +75,10 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
      */
     public void setVisibility(boolean isVisible) {
 	setVisible(isVisible);
+	if (isVisible) {
+	    setState(NORMAL);
+	    toFront();
+	}
     }
 
     /**
