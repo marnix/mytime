@@ -1,5 +1,7 @@
 package mytime.ui.swing;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -25,8 +27,13 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	super("MyTime");
 	_appMainWindow = appMainWindow;
 
-	// add UI components
+	// TODO: add UI components here
+
 	pack();
+	// TODO: Remember the window position from a previous run, and move the window to the same place it was.
+	// (Where can I store that information. Does Java have some kind of 'registry'?)
+	moveToLowerRightHandCorner();
+
 	addWindowListener(new WindowAdapter() {
 	    @Override
 	    public void windowClosing(WindowEvent a_event) {
@@ -37,6 +44,14 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 	connectModel();
+    }
+
+    private void moveToLowerRightHandCorner() {
+	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	/*
+	 * We subtract an arbitrary number of pixels, to make sure that we're clear of any toolbar and such.
+	 */
+	setLocation(screenSize.width - getWidth() - 64, screenSize.height - getHeight() - 64);
     }
 
     private void connectModel() {
