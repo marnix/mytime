@@ -30,8 +30,8 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	// TODO: add UI components here
 
 	pack();
-	// TODO: Remember the window position from a previous run, and move the window to the same place it was.
-	// (Where can I store that information. Does Java have some kind of 'registry'?)
+	// TODO: Remember the window position and size from a previous run, and move the window to the same place it was.
+	// This can be stored through the Preferences class.
 	moveToLowerRightHandCorner();
 
 	// TODO: Make sure that the icon image is the same as the tray icon image, probably by moving knowledge about the icon to
