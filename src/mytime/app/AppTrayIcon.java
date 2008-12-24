@@ -1,14 +1,22 @@
 package mytime.app;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 /** The application facade that represents the tray icon, called from {@link IUITrayIcon}. */
 
 public class AppTrayIcon {
 
     private IUITrayIcon _uiTrayIcon;
-    private final AppRoot _appRoot;
+    final AppRoot _appRoot;
 
     AppTrayIcon(AppRoot appRoot) {
 	_appRoot = appRoot;
+	_appRoot.getIsRunningModel().addChangeListener(new ChangeListener() {
+	    public void stateChanged(ChangeEvent e) {
+		setRunning(_appRoot.getIsRunningModel().isEnabled());
+	    }
+	});
     }
 
     void setUITrayIcon(IUITrayIcon trayIcon) {
@@ -20,8 +28,9 @@ public class AppTrayIcon {
 	_uiTrayIcon.setRunning(isRunning);
     }
 
+    // TODO: Try to get rid of this method.
     public boolean isTimerRunning() {
-	return _appRoot.isTimerRunning();
+	return _appRoot.getIsRunningModel().isEnabled();
     }
 
     public boolean areWindowsVisible() {

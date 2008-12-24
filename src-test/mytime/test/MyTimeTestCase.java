@@ -72,19 +72,20 @@ public class MyTimeTestCase extends TestCase {
 	_appTrayIcon.doToggleWindows();
 
 	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
-	verify(_mockUIMainWindow).setPauseEnabled(true);
+	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
+	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
 
 	appMainWindow.doPauseTimer();
 
-	verify(_mockUIMainWindow).setPauseEnabled(false);
-	verify(_mockUIMainWindow).setStartEnabled(true);
+	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
+	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 	verify(_mockUITrayIcon).setRunning(false);
 	verify(_mockUITrayIcon, times(1)).setRunning(true);
 
 	appMainWindow.doStartTimer();
 
-	verify(_mockUIMainWindow, times(2)).setPauseEnabled(true);
-	verify(_mockUIMainWindow).setStartEnabled(false);
+	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
+	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
 	verify(_mockUITrayIcon, times(2)).setRunning(true);
     }
 
@@ -92,24 +93,25 @@ public class MyTimeTestCase extends TestCase {
 	_appTrayIcon.doToggleWindows();
 
 	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
-	verify(_mockUIMainWindow).setStartEnabled(true);
+	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
+	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 
 	appMainWindow.doStartTimer();
 
-	verify(_mockUIMainWindow).setPauseEnabled(true);
-	verify(_mockUIMainWindow).setStartEnabled(false);
+	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
+	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
 	verify(_mockUITrayIcon).setRunning(true);
 
 	_appTrayIcon.doToggleTimer();
 
-	verify(_mockUIMainWindow).setPauseEnabled(false);
-	verify(_mockUIMainWindow, times(2)).setStartEnabled(true);
+	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
+	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 	verify(_mockUITrayIcon).setRunning(false);
 
 	_appTrayIcon.doToggleTimer();
 
-	verify(_mockUIMainWindow, times(2)).setPauseEnabled(true);
-	verify(_mockUIMainWindow, times(2)).setStartEnabled(false);
+	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
+	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
 	verify(_mockUITrayIcon, times(2)).setRunning(true);
     }
 

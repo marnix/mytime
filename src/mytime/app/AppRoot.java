@@ -1,5 +1,7 @@
 package mytime.app;
 
+import mytime.app.models.ToggleButtonModel;
+
 /**
  * 
  * AppRoot is the application facade that represents the entire application. It has a one-to-one relationship with the root UI
@@ -10,7 +12,7 @@ public class AppRoot {
 
     private final IUIRoot _uiRoot;
     private final AppTrayIcon _appTrayIcon;
-    private boolean _isRunning = false; // TODO: create a separate 'timer is running' model object
+    private final ToggleButtonModel _isRunningModel;
     private AppMainWindow _appMainWindow;
 
     /**
@@ -25,6 +27,7 @@ public class AppRoot {
 
     private AppRoot(IUIRoot uiRoot) {
 	_uiRoot = uiRoot;
+	_isRunningModel = new ToggleButtonModel();
 	// create application facade and UI...
 	_appTrayIcon = new AppTrayIcon(this);
 	IUITrayIcon uiTrayIcon = _uiRoot.showTrayIcon(_appTrayIcon, false);
@@ -37,11 +40,7 @@ public class AppRoot {
     }
 
     public void toggleTimer() {
-	_isRunning = !_isRunning;
-	_appTrayIcon.setRunning(_isRunning);
-	if (_appMainWindow != null) {
-	    _appMainWindow.setRunning(_isRunning);
-	}
+	_isRunningModel.toggle();
     }
 
     public void toggleWindows() {
@@ -56,8 +55,8 @@ public class AppRoot {
 	_appTrayIcon.updateVisibility();
     }
 
-    public boolean isTimerRunning() {
-	return _isRunning;
+    public ToggleButtonModel getIsRunningModel() {
+	return _isRunningModel;
     }
 
     public boolean areWindowsVisible() {

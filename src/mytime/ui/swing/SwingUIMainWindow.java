@@ -22,8 +22,8 @@ import mytime.app.IUIMainWindow;
 public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 
     AppMainWindow _appMainWindow;
-    private final JButton _jStartButton;
-    private final JButton _jPauseButton;
+    private JButton _jStartButton;
+    private JButton _jPauseButton;
 
     /**
      * Create and show the main window.
@@ -33,6 +33,41 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
     public SwingUIMainWindow(AppMainWindow appMainWindow) {
 	super("MyTime");
 	_appMainWindow = appMainWindow;
+
+	createComponents();
+	addComponentListeners();
+	connectModels();
+	pack();
+	placeWindow();
+    }
+
+    private void addComponentListeners() {
+	addWindowListener(new WindowAdapter() {
+	    @Override
+	    public void windowClosing(WindowEvent e) {
+		// on close, we minimize to the tray icon
+		_appMainWindow.doClose();
+	    }
+
+	    @Override
+	    public void windowIconified(WindowEvent e) {
+		// on close, we minimize to the tray icon
+		_appMainWindow.doMinimize();
+	    }
+	});
+	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+    }
+
+    private void placeWindow() {
+	// TODO: Remember the window position and size from a previous run, and move the window to the same place it was.
+	// This can be stored through the Preferences class.
+	moveToLowerRightHandCorner();
+    }
+
+    private void createComponents() {
+	// TODO: Make sure that the icon image of the window is the same as the tray icon image, probably by moving knowledge about
+	// the icon to
+	// SwingUIRoot.
 
 	JPanel pane = new JPanel();
 	getContentPane().add(pane);
@@ -53,32 +88,6 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	    }
 	});
 	pane.add(_jPauseButton);
-	_jPauseButton.setEnabled(false);
-
-	pack();
-	// TODO: Remember the window position and size from a previous run, and move the window to the same place it was.
-	// This can be stored through the Preferences class.
-	moveToLowerRightHandCorner();
-
-	// TODO: Make sure that the icon image is the same as the tray icon image, probably by moving knowledge about the icon to
-	// SwingUIRoot.
-
-	addWindowListener(new WindowAdapter() {
-	    @Override
-	    public void windowClosing(WindowEvent e) {
-		// on close, we minimize to the tray icon
-		_appMainWindow.doClose();
-	    }
-
-	    @Override
-	    public void windowIconified(WindowEvent e) {
-		// on close, we minimize to the tray icon
-		_appMainWindow.doMinimize();
-	    }
-	});
-	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
-	connectModel();
     }
 
     private void moveToLowerRightHandCorner() {
@@ -89,8 +98,9 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	setLocation(screenSize.width - getWidth() - 64, screenSize.height - getHeight() - 64);
     }
 
-    private void connectModel() {
-	// TODO: fill in when UI components have been added
+    private void connectModels() {
+	_jStartButton.setModel(_appMainWindow.getStartButtonModel());
+	_jPauseButton.setModel(_appMainWindow.getPauseButtonModel());
     }
 
     /**
@@ -105,14 +115,6 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	    setState(NORMAL);
 	    toFront();
 	}
-    }
-
-    public void setStartEnabled(boolean enabled) {
-	_jStartButton.setEnabled(enabled);
-    }
-
-    public void setPauseEnabled(boolean enabled) {
-	_jPauseButton.setEnabled(enabled);
     }
 
     /**

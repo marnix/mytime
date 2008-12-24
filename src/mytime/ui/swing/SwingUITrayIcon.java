@@ -65,7 +65,6 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	_awtToggleTimerMenuItem = new CheckboxMenuItem("Run timer");
 	_awtToggleTimerMenuItem.addItemListener(new ItemListener() {
 	    public void itemStateChanged(ItemEvent e) {
-		assert e.getStateChange() == (_appTrayIcon.isTimerRunning() ? ItemEvent.DESELECTED : ItemEvent.SELECTED);
 		_appTrayIcon.doToggleTimer();
 	    }
 	});

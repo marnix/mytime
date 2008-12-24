@@ -1,10 +1,14 @@
 package mytime.app;
 
+import javax.swing.ButtonModel;
+
+import mytime.app.models.NegatedButtonModel;
+
 public class AppMainWindow {
 
-    private IUIMainWindow _uiMainWindow;
+    IUIMainWindow _uiMainWindow;
     private boolean _isVisible;
-    private final AppRoot _appRoot;
+    final AppRoot _appRoot;
 
     public AppMainWindow(AppRoot appRoot) {
 	_appRoot = appRoot;
@@ -13,11 +17,6 @@ public class AppMainWindow {
 
     public void setUIMainWindow(IUIMainWindow uiMainWindow) {
 	_uiMainWindow = uiMainWindow;
-	if (_appRoot.isTimerRunning()) {
-	    _uiMainWindow.setPauseEnabled(true);
-	} else {
-	    _uiMainWindow.setStartEnabled(true);
-	}
     }
 
     public void doMinimize() {
@@ -43,24 +42,19 @@ public class AppMainWindow {
 	setVisibility(_isVisible);
     }
 
-    public void setRunning(boolean running) {
-	assert running == _appRoot.isTimerRunning();
-	if (running) {
-	    _uiMainWindow.setStartEnabled(false);
-	    _uiMainWindow.setPauseEnabled(true);
-	} else {
-	    _uiMainWindow.setStartEnabled(true);
-	    _uiMainWindow.setPauseEnabled(false);
-	}
+    public ButtonModel getStartButtonModel() {
+	return new NegatedButtonModel(_appRoot.getIsRunningModel());
+    }
+
+    public ButtonModel getPauseButtonModel() {
+	return _appRoot.getIsRunningModel();
     }
 
     public void doStartTimer() {
-	assert !_appRoot.isTimerRunning();
 	_appRoot.toggleTimer();
     }
 
     public void doPauseTimer() {
-	assert _appRoot.isTimerRunning();
 	_appRoot.toggleTimer();
     }
 
