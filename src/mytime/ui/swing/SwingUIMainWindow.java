@@ -41,7 +41,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	    @Override
 	    public void windowClosing(WindowEvent e) {
 		// on close, we minimize to the tray icon
-		_appMainWindow.doMinimize();
+		_appMainWindow.doClose();
 	    }
 
 	    @Override
