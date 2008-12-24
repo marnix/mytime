@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -36,7 +37,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	JPanel pane = new JPanel();
 	getContentPane().add(pane);
 
-	_jStartButton = new JButton("|>");
+	_jStartButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/play.png")));
 	_jStartButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		_appMainWindow.doStartTimer();
@@ -45,7 +46,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	pane.add(_jStartButton);
 	_jStartButton.setEnabled(false);
 
-	_jPauseButton = new JButton("||");
+	_jPauseButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/pause.png")));
 	_jPauseButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		_appMainWindow.doPauseTimer();

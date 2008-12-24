@@ -45,7 +45,8 @@ public class SwingUITrayIcon implements IUITrayIcon {
 
     private Image createImage(boolean isRunning) {
 	// TODO: create a static array of size two with two Image objects, for efficiency.
-	return Toolkit.getDefaultToolkit().getImage(getClass().getResource(isRunning ? "clock-run.png" : "clock-stop.png"));
+	return Toolkit.getDefaultToolkit().getImage(
+		getClass().getResource(isRunning ? "icons/clock-run.png" : "icons/clock-stop.png"));
     }
 
     private PopupMenu createPopUpMenu() {
