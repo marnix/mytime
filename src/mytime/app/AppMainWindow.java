@@ -6,9 +6,9 @@ import mytime.app.models.NegatedButtonModel;
 
 public class AppMainWindow {
 
-    IUIMainWindow _uiMainWindow;
+    private IUIMainWindow _uiMainWindow;
     private boolean _isVisible;
-    final AppRoot _appRoot;
+    private final AppRoot _appRoot;
 
     public AppMainWindow(AppRoot appRoot) {
 	_appRoot = appRoot;

@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 public class AppTrayIcon {
 
     private IUITrayIcon _uiTrayIcon;
-    final AppRoot _appRoot;
+    private final AppRoot _appRoot;
 
     AppTrayIcon(AppRoot appRoot) {
 	_appRoot = appRoot;

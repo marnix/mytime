@@ -20,10 +20,10 @@ import mytime.app.IUITrayIcon;
  */
 public class SwingUITrayIcon implements IUITrayIcon {
 
-    final AppTrayIcon _appTrayIcon;
+    private final AppTrayIcon _appTrayIcon;
     private java.awt.TrayIcon _awtTrayIcon;
-    CheckboxMenuItem _awtHideShowItem;
-    CheckboxMenuItem _awtToggleTimerMenuItem;
+    private CheckboxMenuItem _awtHideShowItem;
+    private CheckboxMenuItem _awtToggleTimerMenuItem;
 
     /**
      * Create and show the AWT tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
