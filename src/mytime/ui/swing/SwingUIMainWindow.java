@@ -2,10 +2,14 @@ package mytime.ui.swing;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import mytime.app.AppMainWindow;
 import mytime.app.IUIMainWindow;
@@ -17,6 +21,8 @@ import mytime.app.IUIMainWindow;
 public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 
     AppMainWindow _appMainWindow;
+    private final JButton _jStartButton;
+    private final JButton _jPauseButton;
 
     /**
      * Create and show the main window.
@@ -27,7 +33,26 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	super("MyTime");
 	_appMainWindow = appMainWindow;
 
-	// TODO: add UI components here
+	JPanel pane = new JPanel();
+	getContentPane().add(pane);
+
+	_jStartButton = new JButton("|>");
+	_jStartButton.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		_appMainWindow.doStartTimer();
+	    }
+	});
+	pane.add(_jStartButton);
+	_jStartButton.setEnabled(false);
+
+	_jPauseButton = new JButton("||");
+	_jPauseButton.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		_appMainWindow.doPauseTimer();
+	    }
+	});
+	pane.add(_jPauseButton);
+	_jPauseButton.setEnabled(false);
 
 	pack();
 	// TODO: Remember the window position and size from a previous run, and move the window to the same place it was.
@@ -79,6 +104,14 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	    setState(NORMAL);
 	    toFront();
 	}
+    }
+
+    public void setStartEnabled(boolean enabled) {
+	_jStartButton.setEnabled(enabled);
+    }
+
+    public void setPauseEnabled(boolean enabled) {
+	_jPauseButton.setEnabled(enabled);
     }
 
     /**

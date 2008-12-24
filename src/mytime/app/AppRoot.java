@@ -10,7 +10,7 @@ public class AppRoot {
 
     private final IUIRoot _uiRoot;
     private final AppTrayIcon _appTrayIcon;
-    private boolean _isRunning = false;
+    private boolean _isRunning = false; // TODO: create a separate 'timer is running' model object
     private AppMainWindow _appMainWindow;
 
     /**
@@ -39,6 +39,9 @@ public class AppRoot {
     public void toggleTimer() {
 	_isRunning = !_isRunning;
 	_appTrayIcon.setRunning(_isRunning);
+	if (_appMainWindow != null) {
+	    _appMainWindow.setRunning(_isRunning);
+	}
     }
 
     public void toggleWindows() {

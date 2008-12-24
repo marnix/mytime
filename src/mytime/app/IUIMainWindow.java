@@ -17,4 +17,18 @@ public interface IUIMainWindow {
      */
     void destroyMainWindow();
 
+    /**
+     * Instructs the UI to enable/disable the start button.
+     * 
+     * @param enabled
+     */
+    void setStartEnabled(boolean enabled);
+
+    /**
+     * Instructs the UI to enable/disable the pause button.
+     * 
+     * @param enabled
+     */
+    void setPauseEnabled(boolean enabled);
+
 }

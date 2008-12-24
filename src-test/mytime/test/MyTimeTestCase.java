@@ -46,7 +46,7 @@ public class MyTimeTestCase extends TestCase {
 	verify(_mockUIRoot).exit();
     }
 
-    public void testStartThenStopTimer() {
+    public void testStartThenStopTimerFromTrayIcon() {
 	_appTrayIcon.doToggleTimer();
 
 	verify(_mockUITrayIcon).setRunning(true);
@@ -62,6 +62,55 @@ public class MyTimeTestCase extends TestCase {
 	_appTrayIcon.doToggleTimer();
 
 	verify(_mockUITrayIcon, times(2)).setRunning(false);
+    }
+
+    public void testStartTimerFromTrayIconThenStopAndStartTimerFromMainWindow() {
+	_appTrayIcon.doToggleTimer();
+
+	verify(_mockUITrayIcon).setRunning(true);
+
+	_appTrayIcon.doToggleWindows();
+
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
+	verify(_mockUIMainWindow).setPauseEnabled(true);
+
+	appMainWindow.doPauseTimer();
+
+	verify(_mockUIMainWindow).setPauseEnabled(false);
+	verify(_mockUIMainWindow).setStartEnabled(true);
+	verify(_mockUITrayIcon).setRunning(false);
+	verify(_mockUITrayIcon, times(1)).setRunning(true);
+
+	appMainWindow.doStartTimer();
+
+	verify(_mockUIMainWindow, times(2)).setPauseEnabled(true);
+	verify(_mockUIMainWindow).setStartEnabled(false);
+	verify(_mockUITrayIcon, times(2)).setRunning(true);
+    }
+
+    public void testStartTimerFromMainWindowThenStopAndStartTimerFromTrayIcon() {
+	_appTrayIcon.doToggleWindows();
+
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
+	verify(_mockUIMainWindow).setStartEnabled(true);
+
+	appMainWindow.doStartTimer();
+
+	verify(_mockUIMainWindow).setPauseEnabled(true);
+	verify(_mockUIMainWindow).setStartEnabled(false);
+	verify(_mockUITrayIcon).setRunning(true);
+
+	_appTrayIcon.doToggleTimer();
+
+	verify(_mockUIMainWindow).setPauseEnabled(false);
+	verify(_mockUIMainWindow, times(2)).setStartEnabled(true);
+	verify(_mockUITrayIcon).setRunning(false);
+
+	_appTrayIcon.doToggleTimer();
+
+	verify(_mockUIMainWindow, times(2)).setPauseEnabled(true);
+	verify(_mockUIMainWindow, times(2)).setStartEnabled(false);
+	verify(_mockUITrayIcon, times(2)).setRunning(true);
     }
 
     public void testShowWindowThenImmediatelyExit() {
@@ -86,11 +135,12 @@ public class MyTimeTestCase extends TestCase {
 	verify(_mockUITrayIcon).setWindowsVisible(false);
 
 	_appTrayIcon.doToggleWindows();
+
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
 	assertEquals(_appRoot.areWindowsVisible(), true);
 	verify(_mockUIMainWindow, times(2)).setVisibility(true);
 	verify(_mockUITrayIcon, times(2)).setWindowsVisible(true);
 
-	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
 	appMainWindow.doMinimize();
 
 	assertEquals(_appRoot.areWindowsVisible(), false);

@@ -23,7 +23,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
     final AppTrayIcon _appTrayIcon;
     private java.awt.TrayIcon _awtTrayIcon;
     CheckboxMenuItem _awtHideShowItem;
-    CheckboxMenuItem _awtToggleTimerWindow;
+    CheckboxMenuItem _awtToggleTimerMenuItem;
 
     /**
      * Create and show the AWT tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
@@ -61,15 +61,15 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	_awtHideShowItem.setState(_appTrayIcon.areWindowsVisible());
 	popup.add(_awtHideShowItem);
 
-	_awtToggleTimerWindow = new CheckboxMenuItem("Run timer");
-	_awtToggleTimerWindow.addItemListener(new ItemListener() {
+	_awtToggleTimerMenuItem = new CheckboxMenuItem("Run timer");
+	_awtToggleTimerMenuItem.addItemListener(new ItemListener() {
 	    public void itemStateChanged(ItemEvent e) {
 		assert e.getStateChange() == (_appTrayIcon.isTimerRunning() ? ItemEvent.DESELECTED : ItemEvent.SELECTED);
 		_appTrayIcon.doToggleTimer();
 	    }
 	});
-	_awtToggleTimerWindow.setState(_appTrayIcon.isTimerRunning());
-	popup.add(_awtToggleTimerWindow);
+	_awtToggleTimerMenuItem.setState(_appTrayIcon.isTimerRunning());
+	popup.add(_awtToggleTimerMenuItem);
 
 	// create menu item for the exit action
 	MenuItem exitItem = new MenuItem("Exit");
@@ -111,6 +111,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
      */
     public void setRunning(boolean isRunning) {
 	_awtTrayIcon.setImage(createImage(isRunning));
+	_awtToggleTimerMenuItem.setState(isRunning);
     }
 
     public void setWindowsVisible(boolean areVisible) {

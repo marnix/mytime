@@ -13,6 +13,11 @@ public class AppMainWindow {
 
     public void setUIMainWindow(IUIMainWindow uiMainWindow) {
 	_uiMainWindow = uiMainWindow;
+	if (_appRoot.isTimerRunning()) {
+	    _uiMainWindow.setPauseEnabled(true);
+	} else {
+	    _uiMainWindow.setStartEnabled(true);
+	}
     }
 
     public void doMinimize() {
@@ -36,6 +41,27 @@ public class AppMainWindow {
     public void toggleVisibility() {
 	_isVisible = !_isVisible;
 	setVisibility(_isVisible);
+    }
+
+    public void setRunning(boolean running) {
+	assert running == _appRoot.isTimerRunning();
+	if (running) {
+	    _uiMainWindow.setStartEnabled(false);
+	    _uiMainWindow.setPauseEnabled(true);
+	} else {
+	    _uiMainWindow.setStartEnabled(true);
+	    _uiMainWindow.setPauseEnabled(false);
+	}
+    }
+
+    public void doStartTimer() {
+	assert !_appRoot.isTimerRunning();
+	_appRoot.toggleTimer();
+    }
+
+    public void doPauseTimer() {
+	assert _appRoot.isTimerRunning();
+	_appRoot.toggleTimer();
     }
 
     public void destroy() {
