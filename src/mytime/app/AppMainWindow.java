@@ -21,6 +21,10 @@ public class AppMainWindow {
 	}
     }
 
+    public void doClose() {
+	doMinimize();
+    }
+
     public boolean getVisibility() {
 	return _isVisible;
     }
