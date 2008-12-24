@@ -34,7 +34,6 @@ public class AppTrayIcon {
 
     public void doToggleWindows() {
 	_appRoot.toggleWindows();
-	updateVisibility();
     }
 
     public void updateVisibility() {
