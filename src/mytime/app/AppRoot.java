@@ -68,4 +68,22 @@ public class AppRoot {
 	}
 	_uiRoot.exit();
     }
+
+    /**
+     * Only necessary to keep Mockito tests simple...
+     * 
+     * @return the tray icon
+     */
+    public AppTrayIcon getAppTrayIcon() {
+	return _appTrayIcon;
+    }
+
+    /**
+     * Only necessary to keep Mockito tests simple...
+     * 
+     * @return the main window
+     */
+    public AppMainWindow getAppMainWindow() {
+	return _appMainWindow;
+    }
 }

@@ -1,5 +1,7 @@
 package mytime.test;
 
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 import junit.framework.TestCase;
 import mytime.app.AppMainWindow;
 import mytime.app.AppRoot;
@@ -8,127 +10,91 @@ import mytime.app.IUIMainWindow;
 import mytime.app.IUIRoot;
 import mytime.app.IUITrayIcon;
 
-public class MyTimeTestCase extends TestCase implements IUIRoot, IUITrayIcon, IUIMainWindow {
+public class MyTimeTestCase extends TestCase {
 
-    private AppTrayIcon _appTrayIcon = null;
-    private String _tooltip = null;
-    private boolean _exitRequested = false;
-    private boolean _isRunning = true;
-    private Object _mainwindowIsVisible = false;
-    private AppMainWindow _appMainWindow;
     private AppRoot _appRoot;
-    private boolean _showWindowIsOn = false;
-
-    public IUITrayIcon showTrayIcon(AppTrayIcon appTrayIcon, boolean isRunning) {
-	_appTrayIcon = appTrayIcon;
-	_isRunning = isRunning;
-	return this;
-    }
-
-    public IUIMainWindow showMainWindow(AppMainWindow appMainWindow) {
-	_appMainWindow = appMainWindow;
-	_mainwindowIsVisible = true;
-	return this;
-    }
-
-    public void setTooltip(String tooltip) {
-	_tooltip = tooltip;
-    }
-
-    public void setRunning(boolean isRunning) {
-	_isRunning = isRunning;
-    }
-
-    public void setWindowsVisible(boolean areVisible) {
-	_showWindowIsOn = areVisible;
-    }
-
-    public void destroyTrayIcon() {
-	_appTrayIcon = null;
-    }
-
-    public void setVisibility(boolean isVisible) {
-	_mainwindowIsVisible = isVisible;
-    }
-
-    public void destroyMainWindow() {
-	_appMainWindow = null;
-    }
-
-    public void exit() {
-	assertTrue(_exitRequested);
-	_exitRequested = false;
-    }
+    private IUITrayIcon _mockUITrayIcon;
+    private IUIRoot _mockUIRoot;
+    private AppTrayIcon _appTrayIcon;
+    private IUIMainWindow _mockUIMainWindow;
 
     @Override
     public void setUp() {
-	assertNull(_appTrayIcon);
-	assertNull(_tooltip);
-	_appRoot = AppRoot.Start(this);
-	assertNotNull(_appTrayIcon);
-	assertEquals(_tooltip, "MyTime");
-	assertEquals(_isRunning, false);
+	_mockUIRoot = mock(IUIRoot.class);
+	_mockUITrayIcon = mock(IUITrayIcon.class);
+	when(_mockUIRoot.showTrayIcon(isA(AppTrayIcon.class), eq(false))).thenReturn(_mockUITrayIcon);
+	_mockUIMainWindow = mock(IUIMainWindow.class);
+	when(_mockUIRoot.showMainWindow(isA(AppMainWindow.class))).thenReturn(_mockUIMainWindow);
+
+	_appRoot = AppRoot.Start(_mockUIRoot);
+
+	_appTrayIcon = _appRoot.getAppTrayIcon(); // TODO: retrieve from _mockUIRoot or isA(AppTrayIcon.class)?
+
+	verifyNoMoreInteractions(_mockUIMainWindow);
     }
 
-    @Override
-    public void tearDown() {
-	_exitRequested = true;
+    public void testStartup() {
+	verify(_mockUITrayIcon).setTooltip("MyTime");
+	verify(_mockUIRoot, never()).showMainWindow(isA(AppMainWindow.class));
+	assertEquals(_appRoot.areWindowsVisible(), false);
+    }
+
+    public void testExit() {
 	_appTrayIcon.doExit();
-	assertFalse(_exitRequested);
-	assertNull(_appTrayIcon);
-	assertNull(_appMainWindow);
-    }
 
-    public void testExitImmediately() {
-	// everything happens in setUp() and tearDown()
+	verify(_mockUITrayIcon).destroyTrayIcon();
+	verify(_mockUIRoot).exit();
     }
 
     public void testStartThenStopTimer() {
-	assertEquals(_isRunning, false);
+	_appTrayIcon.doToggleTimer();
+
+	verify(_mockUITrayIcon).setRunning(true);
 
 	_appTrayIcon.doToggleTimer();
-	assertEquals(_isRunning, true);
+
+	verify(_mockUITrayIcon).setRunning(false);
 
 	_appTrayIcon.doToggleTimer();
-	assertEquals(_isRunning, false);
+
+	verify(_mockUITrayIcon, times(2)).setRunning(true);
 
 	_appTrayIcon.doToggleTimer();
-	assertEquals(_isRunning, true);
 
-	_appTrayIcon.doToggleTimer();
-	assertEquals(_isRunning, false);
+	verify(_mockUITrayIcon, times(2)).setRunning(false);
     }
 
     public void testShowWindowThenImmediatelyExit() {
-	assertEquals(_mainwindowIsVisible, false);
-
 	_appTrayIcon.doToggleWindows();
-	assertEquals(_mainwindowIsVisible, true);
+
+	assertEquals(_appRoot.areWindowsVisible(), true);
+	verify(_mockUIMainWindow).setVisibility(true);
+	verify(_mockUITrayIcon).setWindowsVisible(true);
     }
 
-    public void testShowThenHideWindow() {
-	assertEquals(_mainwindowIsVisible, false);
-	assertEquals(_appRoot.areWindowsVisible(), false);
-	assertEquals(_showWindowIsOn, false);
-
+    public void testShowThenHideThenShowThenExitWindow() {
 	_appTrayIcon.doToggleWindows();
-	assertEquals(_mainwindowIsVisible, true);
+
 	assertEquals(_appRoot.areWindowsVisible(), true);
-	assertEquals(_showWindowIsOn, true);
+	verify(_mockUIMainWindow).setVisibility(true);
+	verify(_mockUITrayIcon).setWindowsVisible(true);
 
 	_appTrayIcon.doToggleWindows();
-	assertEquals(_mainwindowIsVisible, false);
+
 	assertEquals(_appRoot.areWindowsVisible(), false);
-	assertEquals(_showWindowIsOn, false);
+	verify(_mockUIMainWindow).setVisibility(false);
+	verify(_mockUITrayIcon).setWindowsVisible(false);
 
 	_appTrayIcon.doToggleWindows();
-	assertEquals(_mainwindowIsVisible, true);
 	assertEquals(_appRoot.areWindowsVisible(), true);
-	assertEquals(_showWindowIsOn, true);
+	verify(_mockUIMainWindow, times(2)).setVisibility(true);
+	verify(_mockUITrayIcon, times(2)).setWindowsVisible(true);
 
-	_appMainWindow.doMinimize();
-	assertEquals(_mainwindowIsVisible, false);
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
+	appMainWindow.doMinimize();
+
 	assertEquals(_appRoot.areWindowsVisible(), false);
-	assertEquals(_showWindowIsOn, false);
+	verify(_mockUIMainWindow, times(2)).setVisibility(false);
+	verify(_mockUITrayIcon, times(2)).setWindowsVisible(false);
     }
 }
