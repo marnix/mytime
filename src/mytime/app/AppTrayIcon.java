@@ -9,14 +9,16 @@ public class AppTrayIcon {
 
     private IUITrayIcon _uiTrayIcon;
     private final AppRoot _appRoot;
+    private final ChangeListener _isRunningChangeListener;
 
     AppTrayIcon(AppRoot appRoot) {
 	_appRoot = appRoot;
-	_appRoot.getIsRunningModel().addChangeListener(new ChangeListener() {
+	_isRunningChangeListener = new ChangeListener() {
 	    public void stateChanged(ChangeEvent e) {
 		setRunning(_appRoot.getIsRunningModel().isEnabled());
 	    }
-	});
+	};
+	_appRoot.getIsRunningModel().addChangeListener(_isRunningChangeListener);
     }
 
     void setUITrayIcon(IUITrayIcon trayIcon) {
@@ -26,11 +28,6 @@ public class AppTrayIcon {
 
     public void setRunning(boolean isRunning) {
 	_uiTrayIcon.setRunning(isRunning);
-    }
-
-    // TODO: Try to get rid of this method.
-    public boolean isTimerRunning() {
-	return _appRoot.getIsRunningModel().isEnabled();
     }
 
     public boolean areWindowsVisible() {
@@ -56,6 +53,7 @@ public class AppTrayIcon {
 
     void destroy() {
 	_uiTrayIcon.destroyTrayIcon();
+	_appRoot.getIsRunningModel().removeChangeListener(_isRunningChangeListener);
 	_uiTrayIcon = null; // to make sure we don't use it anymore
     }
 }

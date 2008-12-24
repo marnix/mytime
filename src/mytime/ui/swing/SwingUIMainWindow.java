@@ -21,7 +21,7 @@ import mytime.app.IUIMainWindow;
 @SuppressWarnings("serial")
 public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 
-    AppMainWindow _appMainWindow;
+    private AppMainWindow _appMainWindow;
     private JButton _jStartButton;
     private JButton _jPauseButton;
 

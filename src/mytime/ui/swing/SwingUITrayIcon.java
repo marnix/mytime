@@ -68,7 +68,6 @@ public class SwingUITrayIcon implements IUITrayIcon {
 		_appTrayIcon.doToggleTimer();
 	    }
 	});
-	_awtToggleTimerMenuItem.setState(_appTrayIcon.isTimerRunning());
 	popup.add(_awtToggleTimerMenuItem);
 
 	// create menu item for the exit action
