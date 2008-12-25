@@ -35,13 +35,29 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	_appMainWindow = appMainWindow;
 
 	createComponents();
-	addComponentListeners();
+	addEventtListeners();
 	connectModels();
-	pack();
-	placeWindow();
+	showWindow();
     }
 
-    private void addComponentListeners() {
+    private void createComponents() {
+	// TODO: Make sure that the icon image of the window is the same as the tray icon image, probably by moving knowledge about
+	// the icon to SwingUIRoot.
+
+	JPanel pane = new JPanel();
+	getContentPane().add(pane);
+
+	_jStartButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/play.png")));
+	pane.add(_jStartButton);
+	_jStartButton.setEnabled(false);
+
+	_jPauseButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/pause.png")));
+	pane.add(_jPauseButton);
+
+	pack();
+    }
+
+    private void addEventtListeners() {
 	addWindowListener(new WindowAdapter() {
 	    @Override
 	    public void windowClosing(WindowEvent e) {
@@ -56,38 +72,28 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	    }
 	});
 	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-    }
 
-    private void placeWindow() {
-	// TODO: Remember the window position and size from a previous run, and move the window to the same place it was.
-	// This can be stored through the Preferences class.
-	moveToLowerRightHandCorner();
-    }
-
-    private void createComponents() {
-	// TODO: Make sure that the icon image of the window is the same as the tray icon image, probably by moving knowledge about
-	// the icon to
-	// SwingUIRoot.
-
-	JPanel pane = new JPanel();
-	getContentPane().add(pane);
-
-	_jStartButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/play.png")));
 	_jStartButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		_appMainWindow.doStartTimer();
 	    }
 	});
-	pane.add(_jStartButton);
-	_jStartButton.setEnabled(false);
-
-	_jPauseButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/pause.png")));
 	_jPauseButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		_appMainWindow.doPauseTimer();
 	    }
 	});
-	pane.add(_jPauseButton);
+    }
+
+    private void connectModels() {
+	_jStartButton.setModel(_appMainWindow.getStartButtonModel());
+	_jPauseButton.setModel(_appMainWindow.getPauseButtonModel());
+    }
+
+    private void showWindow() {
+	// TODO: Remember the window position and size from a previous run, and move the window to the same place it was.
+	// This can be stored through the Preferences class.
+	moveToLowerRightHandCorner();
     }
 
     private void moveToLowerRightHandCorner() {
@@ -96,11 +102,6 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	 * We subtract an arbitrary number of pixels, to make sure that we're clear of any toolbar and such.
 	 */
 	setLocation(screenSize.width - getWidth() - 64, screenSize.height - getHeight() - 64);
-    }
-
-    private void connectModels() {
-	_jStartButton.setModel(_appMainWindow.getStartButtonModel());
-	_jPauseButton.setModel(_appMainWindow.getPauseButtonModel());
     }
 
     /**
@@ -121,7 +122,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
      * Destroy this main window. After this, this object may not be used anymore
      * 
      */
-    public void destroyMainWindow() {
+    public void destroy() {
 	dispose();
 	_appMainWindow = null; // just to make sure we don't use it anymore
     }

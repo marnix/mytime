@@ -15,5 +15,5 @@ public interface IUIMainWindow {
     /**
      * Instructs the UI to destroy this main window.
      */
-    void destroyMainWindow();
+    void destroy();
 }

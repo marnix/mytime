@@ -29,5 +29,5 @@ public interface IUITrayIcon {
     /**
      * Instructs the UI to destroy the tray icon. After this action, this {@link IUITrayIcon} object may not be used anymore.
      */
-    public void destroyTrayIcon();
+    public void destroy();
 }

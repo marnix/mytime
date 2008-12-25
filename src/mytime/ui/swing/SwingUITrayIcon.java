@@ -24,6 +24,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
     private java.awt.TrayIcon _awtTrayIcon;
     private CheckboxMenuItem _awtHideShowItem;
     private CheckboxMenuItem _awtToggleTimerMenuItem;
+    private MenuItem _awtExitItem;
 
     /**
      * Create and show the AWT tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
@@ -33,14 +34,15 @@ public class SwingUITrayIcon implements IUITrayIcon {
      */
     public SwingUITrayIcon(AppTrayIcon appTrayIcon, boolean isRunning) {
 	_appTrayIcon = appTrayIcon;
+
+	createComponents(isRunning);
+	addEventListeners();
+	show();
+    }
+
+    private void createComponents(boolean isRunning) {
 	_awtTrayIcon = new java.awt.TrayIcon(createImage(isRunning), null /* initially no tooltip */, createPopUpMenu());
 	_awtTrayIcon.setImageAutoSize(true);
-	_awtTrayIcon.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent e) {
-		_appTrayIcon.doToggleWindows();
-	    }
-	});
-	showAWTTrayIcon();
     }
 
     private Image createImage(boolean isRunning) {
@@ -53,36 +55,44 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	PopupMenu popup = new PopupMenu();
 
 	_awtHideShowItem = new CheckboxMenuItem("Show window");
+	_awtHideShowItem.setState(_appTrayIcon.areWindowsVisible());
+	popup.add(_awtHideShowItem);
+
+	_awtToggleTimerMenuItem = new CheckboxMenuItem("Run timer");
+	popup.add(_awtToggleTimerMenuItem);
+
+	_awtExitItem = new MenuItem("Exit");
+	popup.add(_awtExitItem);
+
+	return popup;
+    }
+
+    private void addEventListeners() {
+	_awtTrayIcon.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		_appTrayIcon.doToggleWindows();
+	    }
+	});
+
 	_awtHideShowItem.addItemListener(new ItemListener() {
 	    public void itemStateChanged(ItemEvent e) {
 		assert e.getStateChange() == (_appTrayIcon.areWindowsVisible() ? ItemEvent.DESELECTED : ItemEvent.SELECTED);
 		_appTrayIcon.doToggleWindows();
 	    }
 	});
-	_awtHideShowItem.setState(_appTrayIcon.areWindowsVisible());
-	popup.add(_awtHideShowItem);
-
-	_awtToggleTimerMenuItem = new CheckboxMenuItem("Run timer");
 	_awtToggleTimerMenuItem.addItemListener(new ItemListener() {
 	    public void itemStateChanged(ItemEvent e) {
 		_appTrayIcon.doToggleTimer();
 	    }
 	});
-	popup.add(_awtToggleTimerMenuItem);
-
-	// create menu item for the exit action
-	MenuItem exitItem = new MenuItem("Exit");
-	exitItem.addActionListener(new ActionListener() {
+	_awtExitItem.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
 		_appTrayIcon.doExit();
 	    }
 	});
-	popup.add(exitItem);
-
-	return popup;
     }
 
-    private void showAWTTrayIcon() {
+    private void show() {
 	try {
 	    SystemTray.getSystemTray().add(_awtTrayIcon);
 	} catch (AWTException ex) {
@@ -120,9 +130,9 @@ public class SwingUITrayIcon implements IUITrayIcon {
     /**
      * Remove the AWT icon.
      * 
-     * @see mytime.app.IUITrayIcon#destroyTrayIcon()
+     * @see mytime.app.IUITrayIcon#destroy()
      */
-    public void destroyTrayIcon() {
+    public void destroy() {
 	SystemTray.getSystemTray().remove(_awtTrayIcon);
 	_awtTrayIcon = null; // to make sure nobody tries to use it anymore
     }

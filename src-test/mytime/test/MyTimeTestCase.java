@@ -28,7 +28,7 @@ public class MyTimeTestCase extends TestCase {
 
 	_appRoot = AppRoot.Start(_mockUIRoot);
 
-	_appTrayIcon = _appRoot.getAppTrayIcon(); // TODO: retrieve from _mockUIRoot or isA(AppTrayIcon.class)?
+	_appTrayIcon = _appRoot.getAppTrayIcon();
 
 	verifyNoMoreInteractions(_mockUIMainWindow);
     }
@@ -42,7 +42,7 @@ public class MyTimeTestCase extends TestCase {
     public void testExit() {
 	_appTrayIcon.doExit();
 
-	verify(_mockUITrayIcon).destroyTrayIcon();
+	verify(_mockUITrayIcon).destroy();
 	verify(_mockUIRoot).exit();
     }
 
@@ -71,7 +71,7 @@ public class MyTimeTestCase extends TestCase {
 
 	_appTrayIcon.doToggleWindows();
 
-	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow();
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
 
@@ -92,7 +92,7 @@ public class MyTimeTestCase extends TestCase {
     public void testStartTimerFromMainWindowThenStopAndStartTimerFromTrayIcon() {
 	_appTrayIcon.doToggleWindows();
 
-	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow();
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 
@@ -138,7 +138,7 @@ public class MyTimeTestCase extends TestCase {
 
 	_appTrayIcon.doToggleWindows();
 
-	AppMainWindow appMainWindow = _appRoot.getAppMainWindow(); // TODO: retrieve from _mockUIRoot or isA(AppMainWindow.class)?
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow();
 	assertEquals(_appRoot.areWindowsVisible(), true);
 	verify(_mockUIMainWindow, times(2)).setVisibility(true);
 	verify(_mockUITrayIcon, times(2)).setWindowsVisible(true);

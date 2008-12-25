@@ -52,7 +52,7 @@ public class AppTrayIcon {
     }
 
     void destroy() {
-	_uiTrayIcon.destroyTrayIcon();
+	_uiTrayIcon.destroy();
 	_appRoot.getIsRunningModel().removeChangeListener(_isRunningChangeListener);
 	_uiTrayIcon = null; // to make sure we don't use it anymore
     }

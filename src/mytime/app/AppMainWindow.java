@@ -59,6 +59,6 @@ public class AppMainWindow {
     }
 
     public void destroy() {
-	_uiMainWindow.destroyMainWindow();
+	_uiMainWindow.destroy();
     }
 }
