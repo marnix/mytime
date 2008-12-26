@@ -35,7 +35,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	_appMainWindow = appMainWindow;
 
 	createComponents();
-	addEventtListeners();
+	addEventListeners();
 	connectModels();
 	showWindow();
     }
@@ -57,7 +57,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	pack();
     }
 
-    private void addEventtListeners() {
+    private void addEventListeners() {
 	addWindowListener(new WindowAdapter() {
 	    @Override
 	    public void windowClosing(WindowEvent e) {
