@@ -7,6 +7,9 @@ import mytime.app.IUIMainWindow;
 import mytime.app.IUIRoot;
 import mytime.app.IUITrayIcon;
 
+import com.melloware.jintellitype.HotkeyListener;
+import com.melloware.jintellitype.JIntellitype;
+
 /**
  * The root of the Swing UI of the MyTime application; this is a singleton.
  * 
@@ -17,7 +20,33 @@ public class SwingUIRoot implements IUIRoot {
      * @param args The command line arguments (currently unused).
      */
     public static void main(String[] args) {
-	AppRoot.Start(new SwingUIRoot());
+	SwingUIRoot uiRoot = new SwingUIRoot();
+	AppRoot appRoot = AppRoot.Start(uiRoot);
+	uiRoot.setAppRoot(appRoot);
+    }
+
+    AppRoot _appRoot;
+
+    public SwingUIRoot() {
+	registerGlobalHotKey();
+    }
+
+    private void setAppRoot(AppRoot appRoot) {
+	_appRoot = appRoot;
+    }
+
+    private void registerGlobalHotKey() {
+	if (JIntellitype.isJIntellitypeSupported()) {
+	    JIntellitype j = JIntellitype.getInstance();
+	    final int ID_HOTKEY = 1;
+	    j.registerHotKey(ID_HOTKEY, "WIN+T");
+	    j.addHotKeyListener(new HotkeyListener() {
+		public void onHotKey(int id) {
+		    assert id == ID_HOTKEY;
+		    _appRoot.doActivate();
+		}
+	    });
+	}
     }
 
     /**

@@ -25,6 +25,7 @@ public class AppRoot {
 
     private AppRoot(IUIRoot uiRoot) {
 	_uiRoot = uiRoot;
+
 	// create application facade and UI...
 	_appTrayIcon = new AppTrayIcon(this);
 	IUITrayIcon uiTrayIcon = _uiRoot.showTrayIcon(_appTrayIcon, false);
@@ -85,5 +86,11 @@ public class AppRoot {
      */
     public AppMainWindow getAppMainWindow() {
 	return _appMainWindow;
+    }
+
+    public void doActivate() {
+	if (!areWindowsVisible()) {
+	    toggleWindows();
+	}
     }
 }
