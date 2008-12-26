@@ -91,7 +91,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	});
 	_awtExitItem.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		_appTrayIcon.doExit();
+		_appTrayIcon.userPerformedExit();
 	    }
 	});
     }
@@ -113,7 +113,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	    // TODO: Replace this emergency handler by something more generic,
 	    // which we could use in multiple places.
 	    ex.printStackTrace();
-	    _appTrayIcon.doExit();
+	    _appTrayIcon.userPerformedExit();
 	}
     }
 

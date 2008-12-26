@@ -61,26 +61,24 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	addWindowListener(new WindowAdapter() {
 	    @Override
 	    public void windowClosing(WindowEvent e) {
-		// on close, we minimize to the tray icon
-		_appMainWindow.doClose();
+		_appMainWindow.userAttemptedClose();
 	    }
 
 	    @Override
 	    public void windowIconified(WindowEvent e) {
-		// on close, we minimize to the tray icon
-		_appMainWindow.doMinimize();
+		_appMainWindow.userPerformedMinimize();
 	    }
 	});
 	setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
 	_jStartButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		_appMainWindow.doStartTimer();
+		_appMainWindow.userPerormsStartTimer();
 	    }
 	});
 	_jPauseButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		_appMainWindow.doPauseTimer();
+		_appMainWindow.userPerformsPauseTimer();
 	    }
 	});
     }
@@ -110,6 +108,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
      * @param isVisible true or false
      * 
      */
+    // TODO: Try to get rid of this method, and replace it by listening to a model.
     public void setVisibility(boolean isVisible) {
 	setVisible(isVisible);
 	if (isVisible) {

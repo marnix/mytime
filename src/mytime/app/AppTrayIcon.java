@@ -39,7 +39,7 @@ public class AppTrayIcon {
     }
 
     /** Called by the UI when the 'exit' option of the tray icon has been activated. */
-    public void doExit() {
+    public void userPerformedExit() {
 	_appRoot.exit();
     }
 

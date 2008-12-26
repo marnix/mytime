@@ -15,29 +15,29 @@ public class AppMainWindow {
 	_isVisible = false;
     }
 
-    public void setUIMainWindow(IUIMainWindow uiMainWindow) {
+    void setUIMainWindow(IUIMainWindow uiMainWindow) {
 	_uiMainWindow = uiMainWindow;
     }
 
-    public void doMinimize() {
+    public void userPerformedMinimize() {
 	if (_appRoot.areWindowsVisible()) {
 	    _appRoot.toggleWindows();
 	}
     }
 
-    public void doClose() {
-	doMinimize();
+    public void userAttemptedClose() {
+	userPerformedMinimize();
     }
 
-    public boolean getVisibility() {
+    boolean getVisibility() {
 	return _isVisible;
     }
 
-    public void setVisibility(boolean isVisible) {
+    void setVisibility(boolean isVisible) {
 	_uiMainWindow.setVisibility(isVisible);
     }
 
-    public void toggleVisibility() {
+    void toggleVisibility() {
 	_isVisible = !_isVisible;
 	setVisibility(_isVisible);
     }
@@ -50,15 +50,15 @@ public class AppMainWindow {
 	return _appRoot.getIsRunningModel();
     }
 
-    public void doStartTimer() {
+    public void userPerormsStartTimer() {
 	_appRoot.toggleTimer();
     }
 
-    public void doPauseTimer() {
+    public void userPerformsPauseTimer() {
 	_appRoot.toggleTimer();
     }
 
-    public void destroy() {
+    void destroy() {
 	_uiMainWindow.destroy();
     }
 }

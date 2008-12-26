@@ -40,7 +40,7 @@ public class MyTimeTestCase extends TestCase {
     }
 
     public void testExit() {
-	_appTrayIcon.doExit();
+	_appTrayIcon.userPerformedExit();
 
 	verify(_mockUITrayIcon).destroy();
 	verify(_mockUIRoot).exit();
@@ -75,13 +75,13 @@ public class MyTimeTestCase extends TestCase {
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
 
-	appMainWindow.doPauseTimer();
+	appMainWindow.userPerformsPauseTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), false);
 
-	appMainWindow.doStartTimer();
+	appMainWindow.userPerormsStartTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
@@ -95,7 +95,7 @@ public class MyTimeTestCase extends TestCase {
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 
-	appMainWindow.doStartTimer();
+	appMainWindow.userPerormsStartTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
@@ -142,7 +142,7 @@ public class MyTimeTestCase extends TestCase {
 	verify(_mockUIMainWindow, times(2)).setVisibility(true);
 	verify(_mockUITrayIcon, times(2)).setWindowsVisible(true);
 
-	appMainWindow.doMinimize();
+	appMainWindow.userPerformedMinimize();
 
 	assertEquals(_appRoot.areWindowsVisible(), false);
 	verify(_mockUIMainWindow, times(2)).setVisibility(false);
