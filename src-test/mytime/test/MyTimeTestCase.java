@@ -49,25 +49,25 @@ public class MyTimeTestCase extends TestCase {
     public void testStartThenStopTimerFromTrayIcon() {
 	_appTrayIcon.doToggleTimer();
 
-	verify(_mockUITrayIcon).setRunning(true);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), true);
 
 	_appTrayIcon.doToggleTimer();
 
-	verify(_mockUITrayIcon).setRunning(false);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), false);
 
 	_appTrayIcon.doToggleTimer();
 
-	verify(_mockUITrayIcon, times(2)).setRunning(true);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), true);
 
 	_appTrayIcon.doToggleTimer();
 
-	verify(_mockUITrayIcon, times(2)).setRunning(false);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), false);
     }
 
     public void testStartTimerFromTrayIconThenStopAndStartTimerFromMainWindow() {
 	_appTrayIcon.doToggleTimer();
 
-	verify(_mockUITrayIcon).setRunning(true);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), true);
 
 	_appTrayIcon.doToggleWindows();
 
@@ -79,14 +79,13 @@ public class MyTimeTestCase extends TestCase {
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
-	verify(_mockUITrayIcon).setRunning(false);
-	verify(_mockUITrayIcon, times(1)).setRunning(true);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), false);
 
 	appMainWindow.doStartTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
-	verify(_mockUITrayIcon, times(2)).setRunning(true);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), true);
     }
 
     public void testStartTimerFromMainWindowThenStopAndStartTimerFromTrayIcon() {
@@ -100,19 +99,19 @@ public class MyTimeTestCase extends TestCase {
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
-	verify(_mockUITrayIcon).setRunning(true);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), true);
 
 	_appTrayIcon.doToggleTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
-	verify(_mockUITrayIcon).setRunning(false);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), false);
 
 	_appTrayIcon.doToggleTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
-	verify(_mockUITrayIcon, times(2)).setRunning(true);
+	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), true);
     }
 
     public void testShowWindowThenImmediatelyExit() {

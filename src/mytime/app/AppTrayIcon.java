@@ -1,7 +1,6 @@
 package mytime.app;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import mytime.app.models.ToggleButtonModel;
 
 /** The application facade that represents the tray icon, called from {@link IUITrayIcon}. */
 
@@ -9,25 +8,18 @@ public class AppTrayIcon {
 
     private IUITrayIcon _uiTrayIcon;
     private final AppRoot _appRoot;
-    private final ChangeListener _isRunningChangeListener;
 
     AppTrayIcon(AppRoot appRoot) {
 	_appRoot = appRoot;
-	_isRunningChangeListener = new ChangeListener() {
-	    public void stateChanged(ChangeEvent e) {
-		setRunning(_appRoot.getIsRunningModel().isEnabled());
-	    }
-	};
-	_appRoot.getIsRunningModel().addChangeListener(_isRunningChangeListener);
+    }
+
+    public ToggleButtonModel getIsRunningModel() {
+	return _appRoot.getIsRunningModel();
     }
 
     void setUITrayIcon(IUITrayIcon trayIcon) {
 	_uiTrayIcon = trayIcon;
 	_uiTrayIcon.setTooltip("MyTime");
-    }
-
-    public void setRunning(boolean isRunning) {
-	_uiTrayIcon.setRunning(isRunning);
     }
 
     public boolean areWindowsVisible() {
@@ -53,7 +45,6 @@ public class AppTrayIcon {
 
     void destroy() {
 	_uiTrayIcon.destroy();
-	_appRoot.getIsRunningModel().removeChangeListener(_isRunningChangeListener);
 	_uiTrayIcon = null; // to make sure we don't use it anymore
     }
 }

@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import mytime.app.AppTrayIcon;
 import mytime.app.IUITrayIcon;
 
@@ -37,6 +40,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
 
 	createComponents(isRunning);
 	addEventListeners();
+	connectModels();
 	show();
     }
 
@@ -92,6 +96,16 @@ public class SwingUITrayIcon implements IUITrayIcon {
 	});
     }
 
+    private void connectModels() {
+	_appTrayIcon.getIsRunningModel().addChangeListener(new ChangeListener() {
+	    public void stateChanged(ChangeEvent a_e) {
+		boolean isRunning = _appTrayIcon.getIsRunningModel().isEnabled();
+		_awtTrayIcon.setImage(createImage(isRunning));
+		_awtToggleTimerMenuItem.setState(isRunning);
+	    }
+	});
+    }
+
     private void show() {
 	try {
 	    SystemTray.getSystemTray().add(_awtTrayIcon);
@@ -110,17 +124,6 @@ public class SwingUITrayIcon implements IUITrayIcon {
      */
     public void setTooltip(String tooltip) {
 	_awtTrayIcon.setToolTip(tooltip);
-    }
-
-    /**
-     * Set the running/stopped state.
-     * 
-     * @param isRunning whether or not the icon shows 'running'
-     * 
-     */
-    public void setRunning(boolean isRunning) {
-	_awtTrayIcon.setImage(createImage(isRunning));
-	_awtToggleTimerMenuItem.setState(isRunning);
     }
 
     public void setWindowsVisible(boolean areVisible) {

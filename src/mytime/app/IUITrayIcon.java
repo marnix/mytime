@@ -13,13 +13,6 @@ public interface IUITrayIcon {
     public void setTooltip(String tooltip);
 
     /**
-     * Instructs the UI to set the 'running' state
-     * 
-     * @param isRunning whether or not the icon should show the timer is running
-     */
-    public void setRunning(boolean isRunning);
-
-    /**
      * Instructs the UI to show whether or not the windows are visible (necessary for pop-up menu).
      * 
      * @param areVisible whether or not the windows are visible
