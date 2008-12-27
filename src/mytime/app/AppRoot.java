@@ -12,7 +12,7 @@ public class AppRoot {
 
     private final IUIRoot _uiRoot;
     private final AppTrayIcon _appTrayIcon;
-    private final ToggleButtonModel _isRunningModel;
+    private ToggleButtonModel _isRunningModel;
     private AppMainWindow _appMainWindow;
 
     /**
@@ -27,7 +27,9 @@ public class AppRoot {
 
     private AppRoot(IUIRoot uiRoot) {
 	_uiRoot = uiRoot;
+
 	_isRunningModel = new ToggleButtonModel();
+
 	// create application facade and UI...
 	_appTrayIcon = new AppTrayIcon(this);
 	IUITrayIcon uiTrayIcon = _uiRoot.showTrayIcon(_appTrayIcon, false);
@@ -68,6 +70,7 @@ public class AppRoot {
 	if (_appMainWindow != null) {
 	    _appMainWindow.destroy();
 	}
+	_isRunningModel = null;
 	_uiRoot.exit();
     }
 

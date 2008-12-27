@@ -28,6 +28,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
     private CheckboxMenuItem _awtHideShowItem;
     private CheckboxMenuItem _awtToggleTimerMenuItem;
     private MenuItem _awtExitItem;
+    private ChangeListener _timerChangeListener;
 
     /**
      * Create and show the AWT tray icon, making sure that all events are passed to the provided {@link AppTrayIcon}.
@@ -97,13 +98,14 @@ public class SwingUITrayIcon implements IUITrayIcon {
     }
 
     private void connectModels() {
-	_appTrayIcon.getIsRunningModel().addChangeListener(new ChangeListener() {
+	_timerChangeListener = new ChangeListener() {
 	    public void stateChanged(ChangeEvent a_e) {
 		boolean isRunning = _appTrayIcon.getIsRunningModel().isEnabled();
 		_awtTrayIcon.setImage(createImage(isRunning));
 		_awtToggleTimerMenuItem.setState(isRunning);
 	    }
-	});
+	};
+	_appTrayIcon.getIsRunningModel().addChangeListener(_timerChangeListener);
     }
 
     private void show() {
@@ -136,6 +138,7 @@ public class SwingUITrayIcon implements IUITrayIcon {
      * @see mytime.app.IUITrayIcon#destroy()
      */
     public void destroy() {
+	_appTrayIcon.getIsRunningModel().removeChangeListener(_timerChangeListener);
 	SystemTray.getSystemTray().remove(_awtTrayIcon);
 	_awtTrayIcon = null; // to make sure nobody tries to use it anymore
     }
