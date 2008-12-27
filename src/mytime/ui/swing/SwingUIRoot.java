@@ -1,5 +1,7 @@
 package mytime.ui.swing;
 
+import javax.swing.SwingUtilities;
+
 import mytime.app.AppMainWindow;
 import mytime.app.AppRoot;
 import mytime.app.AppTrayIcon;
@@ -17,7 +19,11 @@ public class SwingUIRoot implements IUIRoot {
      * @param args The command line arguments (currently unused).
      */
     public static void main(String[] args) {
-	AppRoot.Start(new SwingUIRoot());
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		AppRoot.Start(new SwingUIRoot());
+	    }
+	});
     }
 
     /**
