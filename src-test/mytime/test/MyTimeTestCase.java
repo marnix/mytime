@@ -81,7 +81,7 @@ public class MyTimeTestCase extends TestCase {
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 	assertEquals(_appTrayIcon.getIsRunningModel().isEnabled(), false);
 
-	appMainWindow.userPerormsStartTimer();
+	appMainWindow.userPerformsStartTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);
@@ -95,7 +95,7 @@ public class MyTimeTestCase extends TestCase {
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), true);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), false);
 
-	appMainWindow.userPerormsStartTimer();
+	appMainWindow.userPerformsStartTimer();
 
 	assertEquals(appMainWindow.getStartButtonModel().isEnabled(), false);
 	assertEquals(appMainWindow.getPauseButtonModel().isEnabled(), true);

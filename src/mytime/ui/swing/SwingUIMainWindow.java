@@ -73,7 +73,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 
 	_jStartButton.addActionListener(new ActionListener() {
 	    public void actionPerformed(ActionEvent e) {
-		_appMainWindow.userPerormsStartTimer();
+		_appMainWindow.userPerformsStartTimer();
 	    }
 	});
 	_jPauseButton.addActionListener(new ActionListener() {

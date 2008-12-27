@@ -50,7 +50,7 @@ public class AppMainWindow {
 	return _appRoot.getIsRunningModel();
     }
 
-    public void userPerormsStartTimer() {
+    public void userPerformsStartTimer() {
 	_appRoot.toggleTimer();
     }
 
