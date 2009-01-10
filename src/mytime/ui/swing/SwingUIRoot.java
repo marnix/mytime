@@ -1,5 +1,7 @@
 package mytime.ui.swing;
 
+import java.util.Date;
+
 import javax.swing.SwingUtilities;
 
 import mytime.app.AppMainWindow;
@@ -48,6 +50,15 @@ public class SwingUIRoot implements IUIRoot {
      */
     public IUIMainWindow showMainWindow(AppMainWindow appMainWindow) {
 	return new SwingUIMainWindow(appMainWindow);
+    }
+
+    /**
+     * Return the current time as a Date object.
+     * 
+     * @return the current time
+     */
+    public Date getTime() {
+	return new Date();
     }
 
     /**

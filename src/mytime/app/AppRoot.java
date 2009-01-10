@@ -1,6 +1,10 @@
 package mytime.app;
 
+import java.util.Date;
+
+import mytime.app.models.IValueModel;
 import mytime.app.models.ToggleButtonModel;
+import mytime.app.models.ValueHolder;
 
 /**
  * 
@@ -14,6 +18,7 @@ public class AppRoot {
     private final AppTrayIcon _appTrayIcon;
     private ToggleButtonModel _isRunningModel;
     private AppMainWindow _appMainWindow;
+    private final ValueHolder<Date> _startTimeModel;
 
     /**
      * Starts the application, and connects it to the UI (i.e., the {@link IUIRoot} object).
@@ -29,6 +34,7 @@ public class AppRoot {
 	_uiRoot = uiRoot;
 
 	_isRunningModel = new ToggleButtonModel();
+	_startTimeModel = new ValueHolder<Date>(null);
 
 	// create application facade and UI...
 	_appTrayIcon = new AppTrayIcon(this);
@@ -43,6 +49,7 @@ public class AppRoot {
 
     public void toggleTimer() {
 	_isRunningModel.toggle();
+	_startTimeModel.setValue(_uiRoot.getTime());
     }
 
     public void toggleWindows() {
@@ -90,5 +97,9 @@ public class AppRoot {
      */
     public AppMainWindow getAppMainWindow() {
 	return _appMainWindow;
+    }
+
+    public IValueModel<Date> getStartTimeModel() {
+	return _startTimeModel;
     }
 }

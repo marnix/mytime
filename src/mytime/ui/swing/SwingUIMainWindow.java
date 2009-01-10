@@ -6,14 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import mytime.app.AppMainWindow;
 import mytime.app.IUIMainWindow;
+import mytime.app.models.DocumentModel;
 
 /**
  * The UI for the main window.
@@ -24,6 +27,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
     private AppMainWindow _appMainWindow;
     private JButton _jStartButton;
     private JButton _jPauseButton;
+    private JTextField _jStartTime;
 
     /**
      * Create and show the main window.
@@ -46,6 +50,12 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 
 	JPanel pane = new JPanel();
 	getContentPane().add(pane);
+
+	_jStartTime = new JTextField();
+	_jStartTime.setPreferredSize(new Dimension(200, 20));
+	pane.add(_jStartTime);
+	_jStartTime.setEditable(false);
+	_jStartTime.setFocusable(false);
 
 	_jStartButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/play.png")));
 	pane.add(_jStartButton);
@@ -84,6 +94,7 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
     }
 
     private void connectModels() {
+	_jStartTime.setDocument(new DocumentModel<Date>(_appMainWindow.getStartTimeModel()));
 	_jStartButton.setModel(_appMainWindow.getStartButtonModel());
 	_jPauseButton.setModel(_appMainWindow.getPauseButtonModel());
     }

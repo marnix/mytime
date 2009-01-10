@@ -2,6 +2,11 @@ package mytime.test;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Date;
+
 import junit.framework.TestCase;
 import mytime.app.AppMainWindow;
 import mytime.app.AppRoot;
@@ -147,5 +152,30 @@ public class MyTimeTestCase extends TestCase {
 	assertEquals(_appRoot.areWindowsVisible(), false);
 	verify(_mockUIMainWindow, times(2)).setVisibility(false);
 	verify(_mockUITrayIcon, times(2)).setWindowsVisible(false);
+    }
+
+    public void testShowCurrentActivityInWindow() {
+	_appTrayIcon.doToggleWindows();
+
+	AppMainWindow appMainWindow = _appRoot.getAppMainWindow();
+	PropertyChangeListener _mockPCL = mock(PropertyChangeListener.class);
+	appMainWindow.getStartTimeModel().addPropertyChangeListener(_mockPCL);
+	assertEquals(null, appMainWindow.getStartTimeModel().getValue());
+
+	Date date1 = new Date("27 dec 2008 09:00");
+	when(_mockUIRoot.getTime()).thenReturn(date1);
+
+	appMainWindow.userPerformsStartTimer();
+
+	verify(_mockPCL).propertyChange(isA(PropertyChangeEvent.class));
+	assertEquals(date1, appMainWindow.getStartTimeModel().getValue());
+
+	Date date2 = new Date(System.currentTimeMillis()); // new Date("27 dec 2008 09:15");
+	when(_mockUIRoot.getTime()).thenReturn(date2);
+
+	appMainWindow.userPerformsPauseTimer();
+
+	assertEquals(date2, appMainWindow.getStartTimeModel().getValue());
+	verify(_mockPCL, times(2)).propertyChange(isA(PropertyChangeEvent.class));
     }
 }

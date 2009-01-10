@@ -1,5 +1,7 @@
 package mytime.app;
 
+import java.util.Date;
+
 /**
  * This interface represents the UI of the application as a whole, as the application facade see it.
  */
@@ -23,8 +25,14 @@ public interface IUIRoot {
     IUIMainWindow showMainWindow(AppMainWindow appMainWindow);
 
     /**
+     * Returns the current time.
+     * 
+     * @return a Date object representing 'now'.
+     */
+    Date getTime();
+
+    /**
      * Instructs the UI to exit.
      */
     void exit();
-
 }

@@ -1,7 +1,10 @@
 package mytime.app;
 
+import java.util.Date;
+
 import javax.swing.ButtonModel;
 
+import mytime.app.models.IValueModel;
 import mytime.app.models.NegatedButtonModel;
 
 public class AppMainWindow {
@@ -60,5 +63,9 @@ public class AppMainWindow {
 
     void destroy() {
 	_uiMainWindow.destroy();
+    }
+
+    public IValueModel<Date> getStartTimeModel() {
+	return _appRoot.getStartTimeModel();
     }
 }
