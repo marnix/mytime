@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -57,11 +59,21 @@ public class SwingUIMainWindow extends JFrame implements IUIMainWindow {
 	_jStartTime.setEditable(false);
 	_jStartTime.setFocusable(false);
 
-	_jStartButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/play.png")));
+	try {
+	    _jStartButton = new JButton(new ImageIcon(new URL("jar:" + getClass().getResource("icons/aesthetica.zip")
+		    + "!/png/48x48/play.png")));
+	} catch (MalformedURLException ex) {
+	    assert false;
+	}
 	pane.add(_jStartButton);
 	_jStartButton.setEnabled(false);
 
-	_jPauseButton = new JButton(new ImageIcon(getClass().getResource("icons/aesthetica/pause.png")));
+	try {
+	    _jPauseButton = new JButton(new ImageIcon(new URL("jar:" + getClass().getResource("icons/aesthetica.zip")
+		    + "!/png/48x48/pause.png")));
+	} catch (MalformedURLException ex) {
+	    assert false;
+	}
 	pane.add(_jPauseButton);
 
 	pack();
